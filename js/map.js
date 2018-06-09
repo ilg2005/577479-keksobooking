@@ -124,20 +124,20 @@ var renderPin = function (pin) {
   var pinTemplate = document.querySelector('template').content;
   var similarPin = pinTemplate.cloneNode(true);
 
-  var pinWidth = similarPin.querySelector('.map__card img').width;
-  var pinHeight = similarPin.querySelector('.map__card img').height;
+  var pinWidth = similarPin.querySelector('.map__pin img').width;
+  var pinHeight = similarPin.querySelector('.map__pin img').height;
 
-  similarPin.querySelector('.map__card img').style = 'left: ' + (card['location'].x + pinWidth) + 'px; top: ' + (card['location'].y + pinHeight) + 'px;';
-  similarPin.querySelector('.map__card img').src = card.author.avatar;
-  similarPin.querySelector('.map__card img').alt = card.offer.title;
-  similarPin.querySelector('.popup__title').textContent = card.offer.title;
-  similarPin.querySelector('.popup__text--address').textContent = card.offer.address;
-  similarPin.querySelector('.popup__text--price').innerHTML = card.offer.price + ' &#x20bd;/ночь';
-  similarPin.querySelector('.popup__type').textContent = card.offer.type;
+  similarPin.querySelector('.map__pin img').style = 'left: ' + (card['location'].x + pinWidth) + 'px; top: ' + (card['location'].y + pinHeight) + 'px;';
+  similarPin.querySelector('.map__pin img').src = card.author.avatar;
+  similarPin.querySelector('.map__pin img').alt = card.offer.title;
 
-
-  console.log(similarPin.querySelector('.popup__type').textContent);
+  console.log(similarPin.querySelector('.map__pin img'));
 
   return similarPin;
 };
 renderPin(4);
+
+/* similarPin.querySelector('.popup__title').textContent = card.offer.title;
+  similarPin.querySelector('.popup__text--address').textContent = card.offer.address;
+  similarPin.querySelector('.popup__text--price').innerHTML = card.offer.price + ' &#x20bd;/ночь';
+  similarPin.querySelector('.popup__type').textContent = card.offer.type;*/
