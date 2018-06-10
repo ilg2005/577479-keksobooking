@@ -120,24 +120,35 @@ document.querySelector('.map').classList.remove('map--faded');
 Координаты X и Y, которые вы вставите в разметку, это не координаты левого верхнего угла блока метки, а координаты, на которые указывает метка своим острым концом. Чтобы найти эту координату нужно учесть размеры элемента с меткой.
  */
 
-var renderPin = function (pin) {
-  var pinTemplate = document.querySelector('template').content;
+var renderPin = function (i) {
+  var pinTemplate = document.querySelector('template').content.querySelector('.map__pin');
   var similarPin = pinTemplate.cloneNode(true);
 
-  var pinWidth = similarPin.querySelector('.map__pin img').width;
-  var pinHeight = similarPin.querySelector('.map__pin img').height;
+  var pinWidth = pinTemplate.querySelector('img').width;
+  var pinHeight = pinTemplate.querySelector('img').height;
 
-  similarPin.querySelector('.map__pin img').style = 'left: ' + (card['location'].x + pinWidth) + 'px; top: ' + (card['location'].y + pinHeight) + 'px;';
-  similarPin.querySelector('.map__pin img').src = card.author.avatar;
-  similarPin.querySelector('.map__pin img').alt = card.offer.title;
-
-  console.log(similarPin.querySelector('.map__pin img'));
+  pinTemplate.style = 'left: ' + (similarCards[i].location.x - pinWidth / 2) + 'px; top: ' + (similarCards[i].location.y - pinHeight) + 'px;';
+  pinTemplate.querySelector('img').src = similarCards[i].author.avatar;
+  pinTemplate.querySelector('img').alt = similarCards[i].offer.title;
 
   return similarPin;
 };
-renderPin(4);
 
-/* similarPin.querySelector('.popup__title').textContent = card.offer.title;
-  similarPin.querySelector('.popup__text--address').textContent = card.offer.address;
-  similarPin.querySelector('.popup__text--price').innerHTML = card.offer.price + ' &#x20bd;/ночь';
-  similarPin.querySelector('.popup__type').textContent = card.offer.type;*/
+//4.Отрисуйте сгенерированные DOM-элементы в блок .map__pins. Для вставки элементов используйте DocumentFragment.
+
+var renderSimilarPins = function (container) {
+  var fragment = document.createDocumentFragment();
+  for (var i = 0; i < CARDS_NUMBER; i++) {
+    fragment.appendChild(renderPin(i));
+  }
+  container.appendChild(fragment);
+};
+
+renderSimilarPins(document.querySelector('.map__pins'));
+
+/* 5. На основе первого по порядку элемента из сгенерированного массива и шаблона .map__card создайте DOM-элемент объявления, заполните его данными из объекта и вставьте полученный DOM-элемент в блок .map перед блоком.map__filters-container:
+
+  similarAd.querySelector('.popup__title').textContent = card.offer.title;
+  similarAd.querySelector('.popup__text--address').textContent = card.offer.address;
+  similarAd.querySelector('.popup__text--price').innerHTML = card.offer.price + ' &#x20bd;/ночь';
+  similarAd.querySelector('.popup__type').textContent = card.offer.type;*/
