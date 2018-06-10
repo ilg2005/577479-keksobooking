@@ -173,6 +173,7 @@ var similarAd = adTemplate.cloneNode(true);
 var fragment = document.createDocumentFragment();
 fragment.appendChild(similarAd);
 
+
 // - Выведите заголовок объявления offer.title в заголовок .popup__title:
 
 similarAd.querySelector('.popup__title').textContent = similarCards[0].offer.title;
@@ -240,7 +241,7 @@ for (var i = 0; i < FEATURES.length; i++) {
   similarAd.querySelector('.popup__features li').remove();
 }
 
- for (var i = 0; i < similarCards[0].offer.features.length; i++) {
+for (var i = 0; i < similarCards[0].offer.features.length; i++) {
   var newLi = document.createElement('li');
   newLi.classList.add('popup__feature');
   var selector = 'popup__feature--' + similarCards[0].offer.features[i];
@@ -272,6 +273,6 @@ similarAd.querySelector('.popup__avatar').src = similarCards[0].author.avatar;
 
 // Отрисовка popup:
 
-// console.log(similarAd);
-document.querySelector('.map__filters-container').insertAdjacentHTML('beforebegin', fragment);
+
+document.querySelector('.map__filters-container').before(fragment);
 
