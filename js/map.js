@@ -38,7 +38,7 @@ var POSITION_Y = {
 };
 
 var getRandomInRange = function (min, max) {
-  return min + Math.floor(Math.random() * max);
+  return min + Math.round(Math.random() * max);
 };
 
 var getRandomValue = function (array) {
