@@ -25,8 +25,6 @@ var CONTROL_HOURS = ['12:00', '13:00', '14:00'];
 
 var FEATURES = ['wifi', 'dishwasher', 'parking', 'washer', 'elevator', 'conditioner'];
 
-var initialFeaturesLength = FEATURES.length;
-
 var PHOTOS_HREFS = ['http://o0.github.io/assets/images/tokyo/hotel1.jpg', 'http://o0.github.io/assets/images/tokyo/hotel2.jpg', 'http://o0.github.io/assets/images/tokyo/hotel3.jpg'];
 
 var POSITION_X = {
@@ -52,16 +50,17 @@ var position = {
   y: getRandomInRange(POSITION_Y.MIN, POSITION_Y.MAX)
 };
 
+
 var getRandomFeaturesArray = function (features) {
   var randomFeatures = [];
-  var tempArray = features;
 
   var randomFeatureLength = getRandomInRange(0, features.length);
-  if (randomFeatureLength) {
-    for (var i = 0; i < randomFeatureLength; i++) {
-      var randomValue = getRandomValue(tempArray);
-      randomFeatures.push(randomValue);
-      tempArray.splice(tempArray.indexOf(randomValue), 1);
+  if (randomFeatureLength !== 0) {
+    while (randomFeatures.length < randomFeatureLength) {
+      var randomValue = getRandomValue(features);
+      if (randomFeatures.indexOf(randomValue) === -1) {
+        randomFeatures.push(randomValue);
+      }
     }
   }
   return randomFeatures;
@@ -198,7 +197,7 @@ similarAd.querySelector('.popup__text--capacity').textContent = similarCards[0].
 
 similarAd.querySelector('.popup__text--time').textContent = 'Заезд после ' + similarCards[0].offer.checkin + '\, выезд до ' + similarCards[0].offer.checkout;
 
-for (var i = 0; i < initialFeaturesLength; i++) {
+for (var i = 0; i < FEATURES.length; i++) {
   var oldLi = similarAd.querySelector('.popup__features li:first-child');
   oldLi.remove();
 }
