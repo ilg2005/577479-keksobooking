@@ -191,8 +191,7 @@ var getWordEndingRooms = function (i) {
 };
 
 var getWordEndingGuests = function (i) {
-  (i === 1) ? (wordEnding = 'я') : (wordEnding = 'ей');
-  return wordEnding;
+  return wordEnding = (i === 1) ? 'я' : 'ей';
 };
 
 similarAd.querySelector('.popup__text--capacity').textContent = similarCards[0].offer.rooms + ' комнат' + getWordEndingRooms(similarCards[0].offer.rooms) + ' для ' + similarCards[0].offer.guests + ' гост' + getWordEndingGuests(similarCards[0].offer.guests);
