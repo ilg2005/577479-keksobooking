@@ -226,4 +226,3 @@ for (var i = 0; i < 3; i++) {
 similarAd.querySelector('.popup__avatar').src = similarCards[0].author.avatar;
 
 document.querySelector('.map__filters-container').before(fragment);
-
