@@ -39,12 +39,8 @@ var POSITION_Y = {
   MAX: 630
 };
 
-var randomizeNumber = function (min, max) {
+var getRandomInRange = function (min, max) {
   return min + Math.floor(Math.random() * max);
-};
-
-var randomizeHours = function (hours) {
-  return hours[Math.round(Math.random() * (hours.length - 1))];
 };
 
 var getRandomValue = function (array) {
@@ -52,15 +48,15 @@ var getRandomValue = function (array) {
 };
 
 var position = {
-  x: randomizeNumber(POSITION_X.MIN, POSITION_X.MAX), // случайное число, координата x метки на карте от 300 до 900,
-  y: randomizeNumber(POSITION_Y.MIN, POSITION_Y.MAX) // случайное число, координата y метки на карте от 130 до 630
+  x: getRandomInRange(POSITION_X.MIN, POSITION_X.MAX), // случайное число, координата x метки на карте от 300 до 900,
+  y: getRandomInRange(POSITION_Y.MIN, POSITION_Y.MAX) // случайное число, координата y метки на карте от 130 до 630
 };
 
 var getRandomFeaturesArray = function (features) {
   var randomFeatures = [];
   var tempArray = features;
 
-  var randomFeatureLength = randomizeNumber(0, features.length);
+  var randomFeatureLength = getRandomInRange(0, features.length);
   if (randomFeatureLength) {
     for (var i = 0; i < randomFeatureLength; i++) {
       var randomValue = getRandomValue(tempArray);
@@ -105,19 +101,19 @@ for (var i = 0; i < CARDS_NUMBER; i++) {
     'offer': {
       title: OFFER_TITLES[i],
       address: '\'' + position.x + '\, ' + position.y + '\'',
-      price: randomizeNumber(PRICE.MIN, PRICE.MAX),
+      price: getRandomInRange(PRICE.MIN, PRICE.MAX),
       type: detectHousingType(i), // строка с одним из четырёх фиксированных значений: palace, flat, house или bungalo
-      rooms: randomizeNumber(ROOMS_NUMBER.MIN, ROOMS_NUMBER.MAX),
-      guests: randomizeNumber(GUESTS_NUMBER.MIN, GUESTS_NUMBER.MAX),
-      checkin: randomizeHours(CONTROL_HOURS), // строка с одним из трёх фиксированных значений: 12:00, 13:00 или 14:00,
-      checkout: randomizeHours(CONTROL_HOURS), // строка с одним из трёх фиксированных значений: 12:00, 13:00 или 14:00,
+      rooms: getRandomInRange(ROOMS_NUMBER.MIN, ROOMS_NUMBER.MAX),
+      guests: getRandomInRange(GUESTS_NUMBER.MIN, GUESTS_NUMBER.MAX),
+      checkin: getRandomValue(CONTROL_HOURS), // строка с одним из трёх фиксированных значений: 12:00, 13:00 или 14:00,
+      checkout: getRandomValue(CONTROL_HOURS), // строка с одним из трёх фиксированных значений: 12:00, 13:00 или 14:00,
       features: getRandomFeaturesArray(FEATURES), // массив строк случайной длины из ниже предложенных: "wifi", "dishwasher", "parking", "washer", "elevator", "conditioner",
       description: '', // пустая строка,
       photo: PHOTOS_HREFS
     },
     'location': {
-      x: randomizeNumber(POSITION_X.MIN, POSITION_X.MAX),
-      y: randomizeNumber(POSITION_Y.MIN, POSITION_Y.MAX)
+      x: getRandomInRange(POSITION_X.MIN, POSITION_X.MAX),
+      y: getRandomInRange(POSITION_Y.MIN, POSITION_Y.MAX)
     }
   };
   similarCards.push(card);
