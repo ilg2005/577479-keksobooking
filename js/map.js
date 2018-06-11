@@ -25,6 +25,8 @@ var CONTROL_HOURS = ['12:00', '13:00', '14:00'];
 
 var FEATURES = ['wifi', 'dishwasher', 'parking', 'washer', 'elevator', 'conditioner'];
 
+var initialFeaturesLength = FEATURES.length;
+
 var PHOTOS_HREFS = ['http://o0.github.io/assets/images/tokyo/hotel1.jpg', 'http://o0.github.io/assets/images/tokyo/hotel2.jpg', 'http://o0.github.io/assets/images/tokyo/hotel3.jpg'];
 
 var POSITION_X = {
@@ -237,8 +239,9 @@ similarAd.querySelector('.popup__text--time').textContent = 'Заезд посл
 
 // В список .popup__features выведите все доступные удобства в объявлении:
 
-for (var i = 0; i < FEATURES.length; i++) {
-  similarAd.querySelector('.popup__features li').remove();
+for (var i = 0; i < initialFeaturesLength; i++) {
+  var oldLi = similarAd.querySelector('.popup__features li:first-child');
+  oldLi.remove();
 }
 
 for (var i = 0; i < similarCards[0].offer.features.length; i++) {
@@ -248,7 +251,6 @@ for (var i = 0; i < similarCards[0].offer.features.length; i++) {
   newLi.classList.add(selector);
   similarAd.querySelector('.popup__features').appendChild(newLi);
 }
-console.log(similarAd.querySelector('.popup__features'));
 
 // В блок .popup__description выведите описание объекта недвижимости offer.description:
 similarAd.querySelector('.popup__description').textContent = similarCards[0].offer.description;
