@@ -118,7 +118,7 @@ var generateCards = function (cardsNumber) {
   return similarCards;
 };
 
-generateCards(CARDS_NUMBER);
+var similarCards = generateCards(CARDS_NUMBER);
 
 
 document.querySelector('.map').classList.remove('map--faded');
