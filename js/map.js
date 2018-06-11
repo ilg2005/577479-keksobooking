@@ -45,12 +45,6 @@ var getRandomValue = function (array) {
   return array[Math.round(Math.random() * (array.length - 1))];
 };
 
-var position = {
-  x: getRandomInRange(POSITION_X.MIN, POSITION_X.MAX),
-  y: getRandomInRange(POSITION_Y.MIN, POSITION_Y.MAX)
-};
-
-
 var getRandomFeaturesArray = function (features) {
   var randomFeatures = [];
 
@@ -89,16 +83,14 @@ var detectHousingType = function (type) {
   return housingType;
 };
 
-var similarCards = [];
-
-for (var i = 0; i < CARDS_NUMBER; i++) {
-  var card = {
-    'author': {'avatar': 'img/avatars/user0' + (i + 1) + '.png'},
+var generateCard = function (j) {
+  var cardItem = {
+    'author': {'avatar': 'img/avatars/user0' + (j + 1) + '.png'},
     'offer': {
-      title: OFFER_TITLES[i],
-      address: '\'' + position.x + '\, ' + position.y + '\'',
+      title: OFFER_TITLES[j],
+      address: '\'' + getRandomInRange(POSITION_X.MIN, POSITION_X.MAX) + '\, ' + getRandomInRange(POSITION_Y.MIN, POSITION_Y.MAX) + '\'',
       price: getRandomInRange(PRICE.MIN, PRICE.MAX),
-      type: detectHousingType(i),
+      type: detectHousingType(j),
       rooms: getRandomInRange(ROOMS_NUMBER.MIN, ROOMS_NUMBER.MAX),
       guests: getRandomInRange(GUESTS_NUMBER.MIN, GUESTS_NUMBER.MAX),
       checkin: getRandomValue(CONTROL_HOURS),
@@ -112,8 +104,22 @@ for (var i = 0; i < CARDS_NUMBER; i++) {
       y: getRandomInRange(POSITION_Y.MIN, POSITION_Y.MAX)
     }
   };
-  similarCards.push(card);
-}
+  return cardItem;
+};
+
+var generateCards = function (cardsNumber) {
+
+  var similarCards = [];
+
+  for (var i = 0; i < cardsNumber; i++) {
+    var card = generateCard(i);
+    similarCards.push(card);
+  }
+  return similarCards;
+};
+
+generateCards(CARDS_NUMBER);
+
 
 document.querySelector('.map').classList.remove('map--faded');
 
