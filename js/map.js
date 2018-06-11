@@ -196,7 +196,7 @@ var generateSelectedAd = function (cardIndex) {
     var oldLi = selectedAd.querySelector('.popup__features li:first-child');
     oldLi.remove();
   }
-  for (var i = 0; i < similarCards[cardIndex].offer.features.length; i++) {
+  for (i = 0; i < similarCards[cardIndex].offer.features.length; i++) {
     var newLi = document.createElement('li');
     newLi.classList.add('popup__feature');
     var selector = 'popup__feature--' + similarCards[cardIndex].offer.features[i];
@@ -206,7 +206,7 @@ var generateSelectedAd = function (cardIndex) {
 
   var photoImg = selectedAd.querySelector('.popup__photos img');
   photoImg.remove();
-  for (var i = 0; i < PHOTOS_HREFS.length; i++) {
+  for (i = 0; i < PHOTOS_HREFS.length; i++) {
     var newImg = photoImg.cloneNode(true);
     newImg.src = similarCards[cardIndex].offer.photo[i];
     selectedAd.querySelector('.popup__photos').appendChild(newImg);
