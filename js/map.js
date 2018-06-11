@@ -48,8 +48,8 @@ var getRandomValue = function (array) {
 };
 
 var position = {
-  x: getRandomInRange(POSITION_X.MIN, POSITION_X.MAX), // случайное число, координата x метки на карте от 300 до 900,
-  y: getRandomInRange(POSITION_Y.MIN, POSITION_Y.MAX) // случайное число, координата y метки на карте от 130 до 630
+  x: getRandomInRange(POSITION_X.MIN, POSITION_X.MAX),
+  y: getRandomInRange(POSITION_Y.MIN, POSITION_Y.MAX)
 };
 
 var getRandomFeaturesArray = function (features) {
@@ -66,7 +66,6 @@ var getRandomFeaturesArray = function (features) {
   }
   return randomFeatures;
 };
-console.log(getRandomFeaturesArray(FEATURES));
 
 var detectHousingType = function (type) {
   var housingType = type;
@@ -91,8 +90,6 @@ var detectHousingType = function (type) {
   return housingType;
 };
 
-// 1. Создайте массив, состоящий из 8 сгенерированных JS объектов, которые будут описывать похожие объявления неподалёку.
-
 var similarCards = [];
 for (var i = 0; i < CARDS_NUMBER; i++) {
 
@@ -102,13 +99,13 @@ for (var i = 0; i < CARDS_NUMBER; i++) {
       title: OFFER_TITLES[i],
       address: '\'' + position.x + '\, ' + position.y + '\'',
       price: getRandomInRange(PRICE.MIN, PRICE.MAX),
-      type: detectHousingType(i), // строка с одним из четырёх фиксированных значений: palace, flat, house или bungalo
+      type: detectHousingType(i),
       rooms: getRandomInRange(ROOMS_NUMBER.MIN, ROOMS_NUMBER.MAX),
       guests: getRandomInRange(GUESTS_NUMBER.MIN, GUESTS_NUMBER.MAX),
-      checkin: getRandomValue(CONTROL_HOURS), // строка с одним из трёх фиксированных значений: 12:00, 13:00 или 14:00,
-      checkout: getRandomValue(CONTROL_HOURS), // строка с одним из трёх фиксированных значений: 12:00, 13:00 или 14:00,
-      features: getRandomFeaturesArray(FEATURES), // массив строк случайной длины из ниже предложенных: "wifi", "dishwasher", "parking", "washer", "elevator", "conditioner",
-      description: '', // пустая строка,
+      checkin: getRandomValue(CONTROL_HOURS),
+      checkout: getRandomValue(CONTROL_HOURS),
+      features: getRandomFeaturesArray(FEATURES),
+      description: '',
       photo: PHOTOS_HREFS
     },
     'location': {
@@ -119,24 +116,7 @@ for (var i = 0; i < CARDS_NUMBER; i++) {
   similarCards.push(card);
 }
 
-console.log(similarCards);
-
-// 2.У блока .map уберите класс .map--faded:
-
 document.querySelector('.map').classList.remove('map--faded');
-
-/*
-На основе данных, созданных в первом пункте, создайте DOM-элементы, соответствующие меткам на карте, и заполните их данными из массива. Итоговую разметку метки .map__pin можно взять из шаблона .map__card.
-
-    У метки должны быть следующие данные:
-    Координаты:style="left: {{location.x}}px; top: {{location.y}}px;"
-    src="{{author.avatar}}"
-    alt="{{заголовок объявления}}"
-
-Обратите внимание
-
-Координаты X и Y, которые вы вставите в разметку, это не координаты левого верхнего угла блока метки, а координаты, на которые указывает метка своим острым концом. Чтобы найти эту координату нужно учесть размеры элемента с меткой.
- */
 
 var renderPin = function (i) {
   var pinTemplate = document.querySelector('template').content.querySelector('.map__pin');
@@ -152,8 +132,6 @@ var renderPin = function (i) {
   return similarPin;
 };
 
-// 4.Отрисуйте сгенерированные DOM-элементы в блок .map__pins. Для вставки элементов используйте DocumentFragment.
-
 var renderSimilarPins = function (container) {
   var fragment = document.createDocumentFragment();
   for (var i = 0; i < CARDS_NUMBER; i++) {
@@ -164,59 +142,49 @@ var renderSimilarPins = function (container) {
 
 renderSimilarPins(document.querySelector('.map__pins'));
 
-/* 5. На основе первого по порядку элемента из сгенерированного массива и шаблона .map__card создайте DOM-элемент объявления, заполните его данными из объекта и вставьте полученный DOM-элемент в блок .map перед блоком.map__filters-container:*/
 var adTemplate = document.querySelector('template').content.querySelector('.map__card');
 var similarAd = adTemplate.cloneNode(true);
 
 var fragment = document.createDocumentFragment();
 fragment.appendChild(similarAd);
 
-
-// - Выведите заголовок объявления offer.title в заголовок .popup__title:
-
 similarAd.querySelector('.popup__title').textContent = similarCards[0].offer.title;
-
-// Выведите адрес offer.address в блок .popup__text--address:
-
 similarAd.querySelector('.popup__text--address').textContent = similarCards[0].offer.address;
-
-// Выведите цену offer.price в блок .popup__text--price строкой вида {{offer.price}}₽/ночь. Например, 5200₽/ночь.
-
 similarAd.querySelector('.popup__text--price').innerHTML = similarCards[0].offer.price + ' &#x20bd;/ночь';
 
-// В блок .popup__type выведите тип жилья offer.type: Квартира для flat, Бунгало для bungalo, Дом для house, Дворец для palace:
-var translatePopupType = function (i) {
-  var popupTypeTranslation;
+var translateHousingType = function (i) {
+  var housingTypeTranslation;
   switch (i) {
     case 'flat':
-      popupTypeTranslation = 'Квартира';
+      housingTypeTranslation = 'Квартира';
       break;
     case 'bungalo':
-      popupTypeTranslation = 'Бунгало';
+      housingTypeTranslation = 'Бунгало';
       break;
     case 'house':
-      popupTypeTranslation = 'Дом';
+      housingTypeTranslation = 'Дом';
       break;
     case 'palace':
-      popupTypeTranslation = 'Дворец';
+      housingTypeTranslation = 'Дворец';
       break;
   }
-  return popupTypeTranslation;
+  return housingTypeTranslation;
 };
-similarAd.querySelector('.popup__type').textContent = translatePopupType(similarCards[0].offer.type);
+similarAd.querySelector('.popup__type').textContent = translateHousingType(similarCards[0].offer.type);
 
-// Выведите количество гостей и комнат offer.rooms и offer.guests в блок .popup__text--capacity строкой вида {{offer.rooms}} комнаты для {{offer.guests}} гостей. Например, 2 комнаты для 3 гостей:
 var wordEnding;
 var getWordEndingRooms = function (i) {
   switch (i) {
     case 1:
       wordEnding = 'а';
       break;
-    case 5:
-      wordEnding = '';
+    case 2:
+    case 3:
+    case 4:
+      wordEnding = 'ы';
       break;
     default:
-      wordEnding = 'ы';
+      wordEnding = '';
       break;
   }
   return wordEnding;
@@ -229,11 +197,7 @@ var getWordEndingGuests = function (i) {
 
 similarAd.querySelector('.popup__text--capacity').textContent = similarCards[0].offer.rooms + ' комнат' + getWordEndingRooms(similarCards[0].offer.rooms) + ' для ' + similarCards[0].offer.guests + ' гост' + getWordEndingGuests(similarCards[0].offer.guests);
 
-// Время заезда и выезда offer.checkin и offer.checkout в блок .popup__text--time строкой вида Заезд после {{offer.checkin}}, выезд до {{offer.checkout}}. Например, заезд после 14:00, выезд до 12:00:
-
 similarAd.querySelector('.popup__text--time').textContent = 'Заезд после ' + similarCards[0].offer.checkin + '\, выезд до ' + similarCards[0].offer.checkout;
-
-// В список .popup__features выведите все доступные удобства в объявлении:
 
 for (var i = 0; i < initialFeaturesLength; i++) {
   var oldLi = similarAd.querySelector('.popup__features li:first-child');
@@ -248,12 +212,7 @@ for (var i = 0; i < similarCards[0].offer.features.length; i++) {
   similarAd.querySelector('.popup__features').appendChild(newLi);
 }
 
-// В блок .popup__description выведите описание объекта недвижимости offer.description:
 similarAd.querySelector('.popup__description').textContent = similarCards[0].offer.description;
-
-
-//     В блок .popup__photos выведите все фотографии из списка offer.photos. Каждая из строк массива photos должна записываться как src соответствующего изображения.
-
 
 var photoImg = similarAd.querySelector('.popup__photos img');
 photoImg.remove();
@@ -264,13 +223,7 @@ for (var i = 0; i < 3; i++) {
   similarAd.querySelector('.popup__photos').appendChild(newImg);
 }
 
-// Замените src у аватарки пользователя — изображения, которое записано в .popup__avatar — на значения поля author.avatar отрисовываемого объекта.
 similarAd.querySelector('.popup__avatar').src = similarCards[0].author.avatar;
-
-// console.log(similarAd.querySelector('.popup__avatar').src);
-
-// Отрисовка popup:
-
 
 document.querySelector('.map__filters-container').before(fragment);
 
