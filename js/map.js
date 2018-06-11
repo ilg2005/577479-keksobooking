@@ -91,8 +91,8 @@ var detectHousingType = function (type) {
 };
 
 var similarCards = [];
-for (var i = 0; i < CARDS_NUMBER; i++) {
 
+for (var i = 0; i < CARDS_NUMBER; i++) {
   var card = {
     'author': {'avatar': 'img/avatars/user0' + (i + 1) + '.png'},
     'offer': {
@@ -217,7 +217,7 @@ similarAd.querySelector('.popup__description').textContent = similarCards[0].off
 var photoImg = similarAd.querySelector('.popup__photos img');
 photoImg.remove();
 
-for (var i = 0; i < 3; i++) {
+for (var i = 0; i < PHOTOS_HREFS.length; i++) {
   var newImg = photoImg.cloneNode(true);
   newImg.src = similarCards[0].offer.photo[i];
   similarAd.querySelector('.popup__photos').appendChild(newImg);
