@@ -19,7 +19,12 @@ var GUESTS_NUMBER = {
   MAX: 30
 };
 
-var HOUSING_TYPES = ['palace', 'flat', 'house', 'bungalo'];
+var HOUSING_TYPES = {
+  'palace': 'Дворец',
+  'flat': 'Квартира',
+  'house': 'Дом',
+  'bungalo': 'Бунгало'
+};
 
 var CONTROL_HOURS = ['12:00', '13:00', '14:00'];
 
@@ -67,7 +72,7 @@ var generateCard = function (cardIndex) {
       title: OFFER_TITLES[cardIndex],
       address: '\'' + getRandomInRange(POSITION_X.MIN, POSITION_X.MAX) + '\, ' + getRandomInRange(POSITION_Y.MIN, POSITION_Y.MAX) + '\'',
       price: getRandomInRange(PRICE.MIN, PRICE.MAX),
-      type: getRandomValue(HOUSING_TYPES),
+      type: getRandomValue(Object.keys(HOUSING_TYPES)),
       rooms: getRandomInRange(ROOMS_NUMBER.MIN, ROOMS_NUMBER.MAX),
       guests: getRandomInRange(GUESTS_NUMBER.MIN, GUESTS_NUMBER.MAX),
       checkin: getRandomValue(CONTROL_HOURS),
@@ -115,25 +120,6 @@ var renderSimilarPins = function (container) {
   container.appendChild(fragmentPin);
 };
 
-var translateHousingType = function (i) {
-  var housingTypeTranslation;
-  switch (i) {
-    case 'flat':
-      housingTypeTranslation = 'Квартира';
-      break;
-    case 'bungalo':
-      housingTypeTranslation = 'Бунгало';
-      break;
-    case 'house':
-      housingTypeTranslation = 'Дом';
-      break;
-    case 'palace':
-      housingTypeTranslation = 'Дворец';
-      break;
-  }
-  return housingTypeTranslation;
-};
-
 var getWordEndingRooms = function (i) {
   switch (i) {
     case 1:
@@ -164,7 +150,7 @@ var generateSelectedAd = function (cardIndex) {
   selectedAd.querySelector('.popup__title').textContent = similarCards[cardIndex].offer.title;
   selectedAd.querySelector('.popup__text--address').textContent = similarCards[cardIndex].offer.address;
   selectedAd.querySelector('.popup__text--price').innerHTML = similarCards[cardIndex].offer.price + ' &#x20bd;/ночь';
-  selectedAd.querySelector('.popup__type').textContent = translateHousingType(similarCards[cardIndex].offer.type);
+  selectedAd.querySelector('.popup__type').textContent = HOUSING_TYPES[similarCards[cardIndex].offer.type];
   selectedAd.querySelector('.popup__text--capacity').textContent = similarCards[cardIndex].offer.rooms + ' комнат' + getWordEndingRooms(similarCards[cardIndex].offer.rooms) + ' для ' + similarCards[cardIndex].offer.guests + ' гост' + getWordEndingGuests(similarCards[cardIndex].offer.guests);
   selectedAd.querySelector('.popup__text--time').textContent = 'Заезд после ' + similarCards[cardIndex].offer.checkin + '\, выезд до ' + similarCards[cardIndex].offer.checkout;
   selectedAd.querySelector('.popup__description').textContent = similarCards[cardIndex].offer.description;
