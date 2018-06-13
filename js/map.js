@@ -65,6 +65,42 @@ var getRandomFeaturesArray = function (features) {
   return randomFeatures;
 };
 
+/* var store = {};
+for (var i = 0; i < 6; i++) {
+  store[i] = true;
+}
+var j = 9;
+if (store.hasOwnProperty([j])) {
+  console.log(store);
+}
+debugger;*/
+
+/* var getUniqueRandomValue = function (array) { // получаем уникальное случайное значение
+  var store = {};
+  var randomKey = getRandomInRange(0, array.length - 1); // получаем случайный ключ
+
+  while (store.hasOwnProperty([newRandomKey])) { // пока store содержит ключ [randomKey]
+    var newRandomKey = getRandomInRange(0, array.length - 1); // получаем случайный ключ
+    if (newRandomKey !== randomKey) {
+      store[newRandomKey] = true;
+    }
+  }
+  store[randomKey] = true;
+  return array[randomKey];
+};*/
+
+/*var getUniqueRandomValue = function (array) {
+  var randomValue = getRandomValue(array);
+  array.splice(array.indexOf(randomValue), 1);
+  return randomValue;
+};
+
+for (var i = 0; i < OFFER_TITLES.length; i++) {
+  var uniqueRandomValue = getUniqueRandomValue(OFFER_TITLES.slice());
+  console.log(uniqueRandomValue);
+}*/
+
+
 var generateCard = function (cardIndex) {
   var card = {
     'author': {'avatar': 'img/avatars/user0' + (cardIndex + 1) + '.png'},
