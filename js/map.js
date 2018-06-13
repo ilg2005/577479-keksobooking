@@ -60,29 +60,6 @@ var getRandomFeaturesArray = function (features) {
   return randomFeatures;
 };
 
-var detectHousingType = function (type) {
-  var housingType = type;
-  switch (housingType) {
-    case 0:
-    case 1:
-      housingType = HOUSING_TYPES[1];
-      break;
-    case 2:
-    case 3:
-      housingType = HOUSING_TYPES[0];
-      break;
-    case 4:
-    case 5:
-      housingType = HOUSING_TYPES[2];
-      break;
-    case 6:
-    case 7:
-      housingType = HOUSING_TYPES[3];
-      break;
-  }
-  return housingType;
-};
-
 var generateCard = function (cardIndex) {
   var card = {
     'author': {'avatar': 'img/avatars/user0' + (cardIndex + 1) + '.png'},
@@ -90,7 +67,7 @@ var generateCard = function (cardIndex) {
       title: OFFER_TITLES[cardIndex],
       address: '\'' + getRandomInRange(POSITION_X.MIN, POSITION_X.MAX) + '\, ' + getRandomInRange(POSITION_Y.MIN, POSITION_Y.MAX) + '\'',
       price: getRandomInRange(PRICE.MIN, PRICE.MAX),
-      type: detectHousingType(cardIndex),
+      type: getRandomValue(HOUSING_TYPES),
       rooms: getRandomInRange(ROOMS_NUMBER.MIN, ROOMS_NUMBER.MAX),
       guests: getRandomInRange(GUESTS_NUMBER.MIN, GUESTS_NUMBER.MAX),
       checkin: getRandomValue(CONTROL_HOURS),
