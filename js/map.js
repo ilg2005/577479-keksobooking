@@ -65,40 +65,13 @@ var getRandomFeaturesArray = function (features) {
   return randomFeatures;
 };
 
-/* var store = {};
-for (var i = 0; i < 6; i++) {
-  store[i] = true;
-}
-var j = 9;
-if (store.hasOwnProperty([j])) {
-  console.log(store);
-}
-debugger;*/
-
-/* var getUniqueRandomValue = function (array) { // получаем уникальное случайное значение
-  var store = {};
-  var randomKey = getRandomInRange(0, array.length - 1); // получаем случайный ключ
-
-  while (store.hasOwnProperty([newRandomKey])) { // пока store содержит ключ [randomKey]
-    var newRandomKey = getRandomInRange(0, array.length - 1); // получаем случайный ключ
-    if (newRandomKey !== randomKey) {
-      store[newRandomKey] = true;
-    }
-  }
-  store[randomKey] = true;
-  return array[randomKey];
-};*/
-
-/* var getUniqueRandomValue = function (array) {
-  var randomValue = getRandomValue(array);
-  array.splice(array.indexOf(randomValue), 1);
-  return randomValue;
+var copyTitles = OFFER_TITLES.slice();
+var getUniqueRandomTitle = function (titles) {
+  var uniqueRandomTitle = getRandomValue(titles);
+  titles.splice(titles.indexOf(uniqueRandomTitle), 1);
+  return uniqueRandomTitle;
 };
 
-for (var i = 0; i < OFFER_TITLES.length; i++) {
-  var uniqueRandomValue = getUniqueRandomValue(OFFER_TITLES.slice());
-  console.log(uniqueRandomValue);
-}*/
 var generateAddress = function () {
   var address = '\'' + getRandomInRange(POSITION_X.MIN, POSITION_X.MAX) + '\, ' + getRandomInRange(POSITION_Y.MIN, POSITION_Y.MAX) + '\'';
   return address;
@@ -108,7 +81,7 @@ var generateCard = function (cardIndex) {
   var card = {
     'author': {'avatar': 'img/avatars/user0' + (cardIndex + 1) + '.png'},
     'offer': {
-      title: OFFER_TITLES[cardIndex],
+      title: getUniqueRandomTitle(copyTitles),
       address: generateAddress(),
       price: getRandomInRange(PRICE.MIN, PRICE.MAX),
       type: getRandomValue(Object.keys(HOUSING_TYPES)),
