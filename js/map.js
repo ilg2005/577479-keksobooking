@@ -89,7 +89,7 @@ debugger;*/
   return array[randomKey];
 };*/
 
-/*var getUniqueRandomValue = function (array) {
+/* var getUniqueRandomValue = function (array) {
   var randomValue = getRandomValue(array);
   array.splice(array.indexOf(randomValue), 1);
   return randomValue;
@@ -99,14 +99,17 @@ for (var i = 0; i < OFFER_TITLES.length; i++) {
   var uniqueRandomValue = getUniqueRandomValue(OFFER_TITLES.slice());
   console.log(uniqueRandomValue);
 }*/
-
+var generateAddress = function () {
+  var address = '\'' + getRandomInRange(POSITION_X.MIN, POSITION_X.MAX) + '\, ' + getRandomInRange(POSITION_Y.MIN, POSITION_Y.MAX) + '\'';
+  return address;
+};
 
 var generateCard = function (cardIndex) {
   var card = {
     'author': {'avatar': 'img/avatars/user0' + (cardIndex + 1) + '.png'},
     'offer': {
       title: OFFER_TITLES[cardIndex],
-      address: '\'' + getRandomInRange(POSITION_X.MIN, POSITION_X.MAX) + '\, ' + getRandomInRange(POSITION_Y.MIN, POSITION_Y.MAX) + '\'',
+      address: generateAddress(),
       price: getRandomInRange(PRICE.MIN, PRICE.MAX),
       type: getRandomValue(Object.keys(HOUSING_TYPES)),
       rooms: getRandomInRange(ROOMS_NUMBER.MIN, ROOMS_NUMBER.MAX),
