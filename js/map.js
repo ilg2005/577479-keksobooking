@@ -132,8 +132,8 @@ var renderSimilarPins = function (container) {
   container.appendChild(fragmentPin);
 };
 
-var getWordEndingRooms = function (i) {
-  switch (i) {
+var getWordEndingRooms = function (count) {
+  switch (count) {
     case 1:
       var wordEnding = 'а';
       break;
@@ -149,8 +149,8 @@ var getWordEndingRooms = function (i) {
   return wordEnding;
 };
 
-var getWordEndingGuests = function (i) {
-  return (i === 1) ? 'я' : 'ей';
+var getWordEndingGuests = function (count) {
+  return (count === 1) ? 'я' : 'ей';
 };
 
 var generateSelectedAd = function (cardIndex) {
