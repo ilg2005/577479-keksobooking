@@ -101,7 +101,7 @@ var generateCard = function (cardIndex) {
       checkout: getRandomValue(CONTROL_HOURS),
       features: getRandomFeaturesArray(FEATURES),
       description: '',
-      photo: shuffleArray(PHOTOS_HREFS.slice())
+      photo: shuffleArray(PHOTOS_HREFS)
     },
     'location': {
       x: getRandomInRange(POSITION_X.MIN, POSITION_X.MAX),
