@@ -50,6 +50,16 @@ var getRandomValue = function (array) {
   return array[Math.round(Math.random() * (array.length - 1))];
 };
 
+var shuffleArray = function (array) {
+  for (var i = 0; i < array.length; i++) {
+    var randomIndex = Math.floor(Math.random() * (i + 1));
+    var temp = array[i];
+    array[i] = array[randomIndex];
+    array[randomIndex] = temp;
+  }
+  return array;
+};
+
 var getRandomFeaturesArray = function (features) {
   var randomFeatures = [];
 
@@ -91,7 +101,7 @@ var generateCard = function (cardIndex) {
       checkout: getRandomValue(CONTROL_HOURS),
       features: getRandomFeaturesArray(FEATURES),
       description: '',
-      photo: PHOTOS_HREFS
+      photo: shuffleArray(PHOTOS_HREFS.slice())
     },
     'location': {
       x: getRandomInRange(POSITION_X.MIN, POSITION_X.MAX),
