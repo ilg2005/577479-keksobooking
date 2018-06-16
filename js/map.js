@@ -142,9 +142,10 @@ var generatePin = function (card) {
 
 var renderSimilarPins = function (container) {
   var fragmentPin = document.createDocumentFragment();
-  for (var i = 0; i < CARDS_QUANTITY; i++) {
-    fragmentPin.appendChild(generatePin(cards[i]));
-  }
+
+  cards.forEach(function (card) {
+    fragmentPin.appendChild(generatePin(card));
+  });
   container.appendChild(fragmentPin);
 };
 
