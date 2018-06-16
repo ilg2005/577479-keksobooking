@@ -1,6 +1,6 @@
 'use strict';
 
-var CARDS_NUMBER = 8;
+var CARDS_QUANTITY = 8;
 
 var OFFER_TITLES = ['Большая уютная квартира', 'Маленькая неуютная квартира', 'Огромный прекрасный дворец', 'Маленький ужасный дворец', 'Красивый гостевой домик', 'Некрасивый негостеприимный домик', 'Уютное бунгало далеко от моря', 'Неуютное бунгало по колено в воде'];
 
@@ -9,12 +9,12 @@ var PRICE = {
   MAX: 1000000
 };
 
-var ROOMS_NUMBER = {
+var ROOMS_QUANTITY = {
   MIN: 1,
   MAX: 5
 };
 
-var GUESTS_NUMBER = {
+var GUESTS_QUANTITY = {
   MIN: 1,
   MAX: 30
 };
@@ -83,20 +83,23 @@ var getUniqueRandomTitle = function (titles) {
 };
 
 var generateAddress = function () {
-  var address = '\'' + getRandomInRange(POSITION_X.MIN, POSITION_X.MAX) + '\, ' + getRandomInRange(POSITION_Y.MIN, POSITION_Y.MAX) + '\'';
-  return address;
+  return '\'' + getRandomInRange(POSITION_X.MIN, POSITION_X.MAX) + '\, ' + getRandomInRange(POSITION_Y.MIN, POSITION_Y.MAX) + '\'';
+};
+
+var getAvatarImgAddress = function (i) {
+  return 'img/avatars/user0' + (i + 1) + '.png';
 };
 
 var generateCard = function (cardIndex) {
   var card = {
-    'author': {'avatar': 'img/avatars/user0' + (cardIndex + 1) + '.png'},
+    'author': {'avatar': getAvatarImgAddress(cardIndex)},
     'offer': {
       title: getUniqueRandomTitle(copyTitles),
       address: generateAddress(),
       price: getRandomInRange(PRICE.MIN, PRICE.MAX),
       type: getRandomValue(Object.keys(HOUSING_TYPES)),
-      rooms: getRandomInRange(ROOMS_NUMBER.MIN, ROOMS_NUMBER.MAX),
-      guests: getRandomInRange(GUESTS_NUMBER.MIN, GUESTS_NUMBER.MAX),
+      rooms: getRandomInRange(ROOMS_QUANTITY.MIN, ROOMS_QUANTITY.MAX),
+      guests: getRandomInRange(GUESTS_QUANTITY.MIN, GUESTS_QUANTITY.MAX),
       checkin: getRandomValue(CONTROL_HOURS),
       checkout: getRandomValue(CONTROL_HOURS),
       features: getRandomFeaturesArray(FEATURES),
@@ -136,7 +139,7 @@ var generatePin = function (i) {
 
 var renderSimilarPins = function (container) {
   var fragmentPin = document.createDocumentFragment();
-  for (var i = 0; i < CARDS_NUMBER; i++) {
+  for (var i = 0; i < CARDS_QUANTITY; i++) {
     fragmentPin.appendChild(generatePin(i));
   }
   container.appendChild(fragmentPin);
@@ -206,7 +209,7 @@ var renderAd = function (selectedAd) {
 };
 
 document.querySelector('.map').classList.remove('map--faded');
-var cards = generateCards(CARDS_NUMBER);
+var cards = generateCards(CARDS_QUANTITY);
 renderSimilarPins(document.querySelector('.map__pins'));
 var selectedAd = generateSelectedAd(0);
 renderAd(selectedAd);
