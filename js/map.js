@@ -42,6 +42,8 @@ var POSITION_Y = {
   MAX: 630
 };
 
+var SELECTED_CARD_INDEX = 0;
+
 var getRandomInRange = function (min, max) {
   return min + Math.round(Math.random() * max);
 };
@@ -223,5 +225,5 @@ var renderAd = function (ad) {
 document.querySelector('.map').classList.remove('map--faded');
 var cards = generateCards(CARDS_QUANTITY);
 renderSimilarPins(document.querySelector('.map__pins'));
-var selectedAd = generateAd(cards[0]);
+var selectedAd = generateAd(cards[SELECTED_CARD_INDEX]);
 renderAd(selectedAd);
