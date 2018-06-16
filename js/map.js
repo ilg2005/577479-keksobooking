@@ -105,7 +105,7 @@ var generateCard = function (cardIndex) {
       checkout: getRandomValue(CONTROL_HOURS),
       features: getRandomFeaturesArray(FEATURES),
       description: '',
-      photo: shuffleArray(PHOTOS_HREFS)
+      photos: shuffleArray(PHOTOS_HREFS)
     },
     'location': {
       x: getRandomInRange(POSITION_X.MIN, POSITION_X.MAX),
@@ -182,6 +182,15 @@ var generateFeaturesFragment = function (features) {
   return featuresFragment;
 };
 
+var generatePhotosFragment = function (hrefs, imgTemplate) {
+  var photosFragment = document.createDocumentFragment();
+  hrefs.forEach(function (href) {
+    var newLi = imgTemplate.cloneNode(true);
+    newLi.src = href;
+    photosFragment.appendChild(newLi);
+  });
+  return photosFragment;
+};
 
 var generateAd = function (card) {
 
@@ -200,14 +209,10 @@ var generateAd = function (card) {
   ad.querySelector('.popup__features').innerHTML = '';
   ad.querySelector('.popup__features').appendChild(generateFeaturesFragment(card.offer.features));
 
-
   var photoImg = ad.querySelector('.popup__photos img');
-  photoImg.remove();
-  for (var i = 0; i < PHOTOS_HREFS.length; i++) {
-    var newImg = photoImg.cloneNode(true);
-    newImg.src = card.offer.photo[i];
-    ad.querySelector('.popup__photos').appendChild(newImg);
-  }
+  ad.querySelector('.popup__photos').innerHTML = '';
+  ad.querySelector('.popup__photos').appendChild(generatePhotosFragment(card.offer.photos, photoImg));
+
   return ad;
 };
 
