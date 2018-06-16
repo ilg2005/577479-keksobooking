@@ -217,9 +217,7 @@ var generateAd = function (card) {
 };
 
 var renderAd = function (ad) {
-  var fragmentAd = document.createDocumentFragment();
-  fragmentAd.appendChild(ad);
-  document.querySelector('.map__filters-container').before(fragmentAd);
+  document.querySelector('.map__filters-container').before(ad);
 };
 
 document.querySelector('.map').classList.remove('map--faded');
