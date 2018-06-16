@@ -90,6 +90,7 @@ var getAvatarImgAddress = function (i) {
   return 'img/avatars/user0' + (i + 1) + '.png';
 };
 
+
 var generateCard = function (cardIndex) {
   var card = {
     'author': {'avatar': getAvatarImgAddress(cardIndex)},
@@ -114,25 +115,27 @@ var generateCard = function (cardIndex) {
   return card;
 };
 
-var generateCards = function (cardsNumber) {
+var generateCards = function (quantity) {
   var cards = [];
-  for (var i = 0; i < cardsNumber; i++) {
+  for (var i = 0; i < quantity; i++) {
     var card = generateCard(i);
     cards.push(card);
   }
   return cards;
 };
 
-var generatePin = function (i) {
+var generatePin = function (card) {
   var pinTemplate = document.querySelector('template').content.querySelector('.map__pin');
   var similarPin = pinTemplate.cloneNode(true);
 
-  var pinWidth = pinTemplate.querySelector('img').width;
-  var pinHeight = pinTemplate.querySelector('img').height;
+  var imgElement = similarPin.querySelector('img');
+  var pinWidth = imgElement.width;
+  var pinHeight = imgElement.height;
 
-  pinTemplate.style = 'left: ' + (cards[i].location.x - pinWidth / 2) + 'px; top: ' + (cards[i].location.y - pinHeight) + 'px;';
-  pinTemplate.querySelector('img').src = cards[i].author.avatar;
-  pinTemplate.querySelector('img').alt = cards[i].offer.title;
+  imgElement.src = card.author.avatar;
+  imgElement.alt = card.offer.title;
+
+  similarPin.style = 'left: ' + (card.location.x - pinWidth / 2) + 'px; top: ' + (card.location.y - pinHeight) + 'px;';
 
   return similarPin;
 };
@@ -140,7 +143,7 @@ var generatePin = function (i) {
 var renderSimilarPins = function (container) {
   var fragmentPin = document.createDocumentFragment();
   for (var i = 0; i < CARDS_QUANTITY; i++) {
-    fragmentPin.appendChild(generatePin(i));
+    fragmentPin.appendChild(generatePin(cards[i]));
   }
   container.appendChild(fragmentPin);
 };
