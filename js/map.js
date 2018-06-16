@@ -170,6 +170,19 @@ var getWordEndingGuests = function (count) {
   return (count === 1) ? 'я' : 'ей';
 };
 
+var generateFeaturesFragment = function (features) {
+  var featuresFragment = document.createDocumentFragment();
+  features.forEach(function (feature) {
+    var newLi = document.createElement('li');
+    newLi.classList.add('popup__feature');
+    var selector = 'popup__feature--' + feature;
+    newLi.classList.add(selector);
+    featuresFragment.appendChild(newLi);
+  });
+  return featuresFragment;
+};
+
+
 var generateAd = function (card) {
 
   var adTemplate = document.querySelector('template').content.querySelector('.map__card');
@@ -184,18 +197,9 @@ var generateAd = function (card) {
   ad.querySelector('.popup__text--time').textContent = 'Заезд после ' + card.offer.checkin + '\, выезд до ' + card.offer.checkout;
   ad.querySelector('.popup__description').textContent = card.offer.description;
 
-  var adFeatures = ad.querySelector('.popup__features');
-  while (adFeatures.firstChild) {
-    adFeatures.removeChild(adFeatures.firstChild);
-  }
+  ad.querySelector('.popup__features').innerHTML = '';
+  ad.querySelector('.popup__features').appendChild(generateFeaturesFragment(card.offer.features));
 
-  for (i = 0; i < card.offer.features.length; i++) {
-    var newLi = document.createElement('li');
-    newLi.classList.add('popup__feature');
-    var selector = 'popup__feature--' + card.offer.features[i];
-    newLi.classList.add(selector);
-    adFeatures.appendChild(newLi);
-  }
 
   var photoImg = ad.querySelector('.popup__photos img');
   photoImg.remove();
