@@ -194,36 +194,36 @@ var generatePhotosFragment = function (hrefs, imgTemplate) {
   return photosFragment;
 };
 
-var generateAd = function (card) {
+var generateAdvertisement = function (card) {
 
-  var adTemplate = document.querySelector('template').content.querySelector('.map__card');
-  var ad = adTemplate.cloneNode(true);
+  var advertisementTemplate = document.querySelector('template').content.querySelector('.map__card');
+  var advertisement = advertisementTemplate.cloneNode(true);
 
-  ad.querySelector('.popup__avatar').src = card.author.avatar;
-  ad.querySelector('.popup__title').textContent = card.offer.title;
-  ad.querySelector('.popup__text--address').textContent = card.offer.address;
-  ad.querySelector('.popup__text--price').innerHTML = card.offer.price + ' &#x20bd;/ночь';
-  ad.querySelector('.popup__type').textContent = HOUSING_TYPES[card.offer.type];
-  ad.querySelector('.popup__text--capacity').textContent = card.offer.rooms + ' комнат' + getWordEndingRooms(card.offer.rooms) + ' для ' + card.offer.guests + ' гост' + getWordEndingGuests(card.offer.guests);
-  ad.querySelector('.popup__text--time').textContent = 'Заезд после ' + card.offer.checkin + '\, выезд до ' + card.offer.checkout;
-  ad.querySelector('.popup__description').textContent = card.offer.description;
+  advertisement.querySelector('.popup__avatar').src = card.author.avatar;
+  advertisement.querySelector('.popup__title').textContent = card.offer.title;
+  advertisement.querySelector('.popup__text--address').textContent = card.offer.address;
+  advertisement.querySelector('.popup__text--price').innerHTML = card.offer.price + ' &#x20bd;/ночь';
+  advertisement.querySelector('.popup__type').textContent = HOUSING_TYPES[card.offer.type];
+  advertisement.querySelector('.popup__text--capacity').textContent = card.offer.rooms + ' комнат' + getWordEndingRooms(card.offer.rooms) + ' для ' + card.offer.guests + ' гост' + getWordEndingGuests(card.offer.guests);
+  advertisement.querySelector('.popup__text--time').textContent = 'Заезд после ' + card.offer.checkin + '\, выезд до ' + card.offer.checkout;
+  advertisement.querySelector('.popup__description').textContent = card.offer.description;
 
-  ad.querySelector('.popup__features').innerHTML = '';
-  ad.querySelector('.popup__features').appendChild(generateFeaturesFragment(card.offer.features));
+  advertisement.querySelector('.popup__features').innerHTML = '';
+  advertisement.querySelector('.popup__features').appendChild(generateFeaturesFragment(card.offer.features));
 
-  var photoImg = ad.querySelector('.popup__photos img');
-  ad.querySelector('.popup__photos').innerHTML = '';
-  ad.querySelector('.popup__photos').appendChild(generatePhotosFragment(card.offer.photos, photoImg));
+  var photoImg = advertisement.querySelector('.popup__photos img');
+  advertisement.querySelector('.popup__photos').innerHTML = '';
+  advertisement.querySelector('.popup__photos').appendChild(generatePhotosFragment(card.offer.photos, photoImg));
 
-  return ad;
+  return advertisement;
 };
 
-var renderAd = function (ad) {
-  document.querySelector('.map__filters-container').before(ad);
+var renderAdvertisement = function (advertisement) {
+  document.querySelector('.map__filters-container').before(advertisement);
 };
 
 document.querySelector('.map').classList.remove('map--faded');
 var cards = generateCards(CARDS_QUANTITY);
 renderSimilarPins(document.querySelector('.map__pins'));
-var selectedAd = generateAd(cards[SELECTED_CARD_INDEX]);
-renderAd(selectedAd);
+var selectedAdvertisement = generateAdvertisement(cards[SELECTED_CARD_INDEX]);
+renderAdvertisement(selectedAdvertisement);
