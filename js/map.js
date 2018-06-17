@@ -120,8 +120,7 @@ var generateCard = function (cardIndex) {
 var generateCards = function (quantity) {
   var cards = [];
   for (var i = 0; i < quantity; i++) {
-    var card = generateCard(i);
-    cards.push(card);
+    cards.push(generateCard(i));
   }
   return cards;
 };
