@@ -44,6 +44,9 @@ var POSITION_Y = {
 
 var SELECTED_CARD_INDEX = 0;
 
+var ADVERTISEMENT_TEMPLATE = document.querySelector('template').content.querySelector('.map__card');
+
+
 var getRandomInRange = function (min, max) {
   return min + Math.round(Math.random() * max);
 };
@@ -194,8 +197,7 @@ var generatePhotosFragment = function (hrefs, imgTemplate) {
 
 var generateAdvertisement = function (card) {
 
-  var advertisementTemplate = document.querySelector('template').content.querySelector('.map__card');
-  var advertisement = advertisementTemplate.cloneNode(true);
+  var advertisement = ADVERTISEMENT_TEMPLATE.cloneNode(true);
 
   advertisement.querySelector('.popup__avatar').src = card.author.avatar;
   advertisement.querySelector('.popup__title').textContent = card.offer.title;
