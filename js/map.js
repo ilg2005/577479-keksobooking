@@ -176,8 +176,7 @@ var generateFeaturesFragment = function (features) {
   features.forEach(function (feature) {
     var newLi = document.createElement('li');
     newLi.classList.add('popup__feature');
-    var selector = 'popup__feature--' + feature;
-    newLi.classList.add(selector);
+    newLi.classList.add('popup__feature--' + feature);
     featuresFragment.appendChild(newLi);
   });
   return featuresFragment;
