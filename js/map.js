@@ -68,9 +68,9 @@ var shuffleArray = function (array) {
 var getRandomFeaturesArray = function (features) {
   var randomFeatures = [];
 
-  var randomFeatureLength = getRandomInRange(0, features.length);
-  if (randomFeatureLength !== 0) {
-    while (randomFeatures.length < randomFeatureLength) {
+  var quantity = getRandomInRange(0, features.length);
+  if (quantity !== 0) {
+    while (randomFeatures.length < quantity) {
       var randomValue = getRandomValue(features);
       if (randomFeatures.indexOf(randomValue) === -1) {
         randomFeatures.push(randomValue);
