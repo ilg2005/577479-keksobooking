@@ -222,6 +222,10 @@ var renderAdvertisement = function (advertisement) {
   document.querySelector('.map__filters-container').before(advertisement);
 };
 
+var formFields = document.querySelectorAll('fieldset');
+formFields.forEach(function(element) {
+  element.setAttribute('disabled', 'disabled');
+});
 /*document.querySelector('.map').classList.remove('map--faded');
 var cards = generateCards(CARDS_QUANTITY);
 renderSimilarPins(document.querySelector('.map__pins'));
