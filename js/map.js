@@ -223,25 +223,27 @@ var renderAdvertisement = function (advertisement) {
   document.querySelector('.map__filters-container').before(advertisement);
 };
 
-var deactivatePage = function () {
+var togglePageState = function (state) {
+  document.querySelector('.map').classList[state.classToggle]('map--faded');
   FORM_FIELDS.forEach(function (element) {
-    element.setAttribute('disabled', 'disabled');
+    element[state.attributeToggle + 'Attribute']('disabled', 'disabled');
   });
-  ADVERTISEMENT_TEMPLATE.classList.add('hidden');
-  PIN_TEMPLATE.classList.add('hidden');
+  ADVERTISEMENT_TEMPLATE.classList[state.classToggle]('hidden');
+  PIN_TEMPLATE.classList[state.classToggle]('hidden');
 };
 
-var activatePage = function () {
-  document.querySelector('.map').classList.remove('map--faded');
-  FORM_FIELDS.forEach(function (element) {
-    element.removeAttribute('disabled', 'disabled');
-  });
-  ADVERTISEMENT_TEMPLATE.classList.remove('hidden');
-  PIN_TEMPLATE.classList.remove('hidden');
+var inactiveState = {
+  classToggle: 'add',
+  attributeToggle: 'set'
 };
 
-deactivatePage();
-activatePage();
+var activeState = {
+  classToggle: 'remove',
+  attributeToggle: 'remove'
+};
+
+togglePageState(inactiveState);
+togglePageState(activeState);
 
 var cards = generateCards(CARDS_QUANTITY);
 renderSimilarPins(document.querySelector('.map__pins'));
