@@ -222,8 +222,8 @@ var renderAdvertisement = function (advertisement) {
   document.querySelector('.map__filters-container').before(advertisement);
 };
 
-document.querySelector('.map').classList.remove('map--faded');
+/*document.querySelector('.map').classList.remove('map--faded');
 var cards = generateCards(CARDS_QUANTITY);
 renderSimilarPins(document.querySelector('.map__pins'));
 var selectedAdvertisement = generateAdvertisement(cards[SELECTED_CARD_INDEX]);
-renderAdvertisement(selectedAdvertisement);
+renderAdvertisement(selectedAdvertisement);*/
