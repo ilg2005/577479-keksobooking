@@ -44,8 +44,10 @@ var POSITION_Y = {
 
 var SELECTED_CARD_INDEX = 0;
 
-var ADVERTISEMENT_TEMPLATE = document.querySelector('template').content.querySelector('.map__card');
-
+var TEMPLATE = document.querySelector('template').content;
+var ADVERTISEMENT_TEMPLATE = TEMPLATE.querySelector('.map__card');
+var PIN_TEMPLATE = TEMPLATE.querySelector('.map__pin');
+var FORM_FIELDS = document.querySelectorAll('fieldset');
 
 var getRandomInRange = function (min, max) {
   return min + Math.round(Math.random() * max);
@@ -129,8 +131,7 @@ var generateCards = function (quantity) {
 };
 
 var generatePin = function (card) {
-  var pinTemplate = document.querySelector('template').content.querySelector('.map__pin');
-  var similarPin = pinTemplate.cloneNode(true);
+  var similarPin = PIN_TEMPLATE.cloneNode(true);
 
   var imgElement = similarPin.querySelector('img');
   var pinWidth = imgElement.width;
@@ -222,12 +223,27 @@ var renderAdvertisement = function (advertisement) {
   document.querySelector('.map__filters-container').before(advertisement);
 };
 
-var formFields = document.querySelectorAll('fieldset');
-formFields.forEach(function(element) {
-  element.setAttribute('disabled', 'disabled');
-});
-/*document.querySelector('.map').classList.remove('map--faded');
+var deactivatePage = function () {
+  FORM_FIELDS.forEach(function (element) {
+    element.setAttribute('disabled', 'disabled');
+  });
+  ADVERTISEMENT_TEMPLATE.classList.add('hidden');
+  PIN_TEMPLATE.classList.add('hidden');
+};
+
+var activatePage = function () {
+  document.querySelector('.map').classList.remove('map--faded');
+  FORM_FIELDS.forEach(function (element) {
+    element.removeAttribute('disabled', 'disabled');
+  });
+  ADVERTISEMENT_TEMPLATE.classList.remove('hidden');
+  PIN_TEMPLATE.classList.remove('hidden');
+};
+
+deactivatePage();
+activatePage();
+
 var cards = generateCards(CARDS_QUANTITY);
 renderSimilarPins(document.querySelector('.map__pins'));
 var selectedAdvertisement = generateAdvertisement(cards[SELECTED_CARD_INDEX]);
-renderAdvertisement(selectedAdvertisement);*/
+renderAdvertisement(selectedAdvertisement);
