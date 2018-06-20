@@ -49,6 +49,7 @@ var ADVERTISEMENT_TEMPLATE = TEMPLATE.querySelector('.map__card');
 var PIN_TEMPLATE = TEMPLATE.querySelector('.map__pin');
 var FORM_FIELDS = document.querySelectorAll('fieldset');
 var PIN_MAIN = document.querySelector('.map__pin--main');
+var FORM_ADDRESS = document.querySelector('#address');
 
 var getRandomInRange = function (min, max) {
   return min + Math.round(Math.random() * max);
@@ -243,11 +244,22 @@ var activeState = {
   'attributeToggle': 'remove'
 };
 
+var insertPinAddress = function () {
+  var pinCoordinates = PIN_MAIN.getBoundingClientRect();
+  var pinX = Math.round(pinCoordinates.left + pinCoordinates.width / 2);
+  var pinY = Math.round(pinCoordinates.bottom);
+  FORM_ADDRESS.value = pinX + '\, ' + pinY;
+};
+
 togglePageState(inactiveState);
+insertPinAddress();
+
 PIN_MAIN.addEventListener('mouseup', function () {
   togglePageState(activeState);
+  renderSimilarPins(document.querySelector('.map__pins'));
+  insertPinAddress();
 });
+
 var cards = generateCards(CARDS_QUANTITY);
-renderSimilarPins(document.querySelector('.map__pins'));
 var selectedAdvertisement = generateAdvertisement(cards[SELECTED_CARD_INDEX]);
 renderAdvertisement(selectedAdvertisement);
