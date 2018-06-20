@@ -233,17 +233,17 @@ var togglePageState = function (state) {
 };
 
 var inactiveState = {
-  classToggle: 'add',
-  attributeToggle: 'set'
+  'classToggle': 'add',
+  'attributeToggle': 'set'
 };
 
 var activeState = {
-  classToggle: 'remove',
-  attributeToggle: 'remove'
+  'classToggle': 'remove',
+  'attributeToggle': 'remove'
 };
 
 togglePageState(inactiveState);
-togglePageState(activeState);
+
 
 var cards = generateCards(CARDS_QUANTITY);
 renderSimilarPins(document.querySelector('.map__pins'));
