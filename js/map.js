@@ -48,6 +48,7 @@ var TEMPLATE = document.querySelector('template').content;
 var ADVERTISEMENT_TEMPLATE = TEMPLATE.querySelector('.map__card');
 var PIN_TEMPLATE = TEMPLATE.querySelector('.map__pin');
 var FORM_FIELDS = document.querySelectorAll('fieldset');
+var PIN_MAIN = document.querySelector('.map__pin--main');
 
 var getRandomInRange = function (min, max) {
   return min + Math.round(Math.random() * max);
@@ -243,8 +244,9 @@ var activeState = {
 };
 
 togglePageState(inactiveState);
-
-
+PIN_MAIN.addEventListener('mouseup', function () {
+  togglePageState(activeState);
+});
 var cards = generateCards(CARDS_QUANTITY);
 renderSimilarPins(document.querySelector('.map__pins'));
 var selectedAdvertisement = generateAdvertisement(cards[SELECTED_CARD_INDEX]);
