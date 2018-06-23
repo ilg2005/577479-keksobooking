@@ -46,10 +46,13 @@ var SELECTED_CARD_INDEX = 0;
 
 var TEMPLATE = document.querySelector('template').content;
 var ADVERTISEMENT_TEMPLATE = TEMPLATE.querySelector('.map__card');
+var ADVERTISEMENT_POPUP_CLOSE = ADVERTISEMENT_TEMPLATE.querySelector('.popup__close');
 var PIN_TEMPLATE = TEMPLATE.querySelector('.map__pin');
 var FORM_FIELDS = document.querySelectorAll('fieldset');
 var PIN_MAIN = document.querySelector('.map__pin--main');
 var FORM_ADDRESS = document.querySelector('#address');
+
+var ESC_KEYCODE = 27;
 
 var getRandomInRange = function (min, max) {
   return min + Math.round(Math.random() * max);
@@ -260,6 +263,47 @@ PIN_MAIN.addEventListener('mouseup', function () {
   insertPinAddress();
 });
 
+var getTargetSrc = function (target) {
+  if (target.className === 'map__pin') {
+    var src = target.querySelector('img').getAttribute('src');
+  } else {
+    src = target.getAttribute('src');
+  }
+  return src;
+};
+
+var getSelectedCardIndex = function (src) {
+  var searchPattern = /[1-9]\d*/;
+  return src.match(searchPattern);
+};
+
+document.addEventListener('click', function (evt) {
+  if ((evt.target.className === 'map__pin') || (evt.target.parentNode.className === 'map__pin')) {
+    var targetSrc = getTargetSrc(evt.target);
+    var selectedCardIndex = getSelectedCardIndex(targetSrc);
+    var selectedAdvertisement = generateAdvertisement(cards[selectedCardIndex]);
+    ADVERTISEMENT_TEMPLATE.classList.add('map__pin--active');
+    renderAdvertisement(selectedAdvertisement);
+  }
+});
+
+var closePopup = function () {
+  ADVERTISEMENT_TEMPLATE.classList.add('hidden');
+};
+
+ADVERTISEMENT_POPUP_CLOSE.addEventListener('click', function () {
+  closePopup();
+});
+
+ADVERTISEMENT_POPUP_CLOSE.addEventListener('keydown', function (evt) {
+  if (evt.keyCode === ESC_KEYCODE) {
+    closePopup();
+  }
+});
+
 var cards = generateCards(CARDS_QUANTITY);
+
+/*
 var selectedAdvertisement = generateAdvertisement(cards[SELECTED_CARD_INDEX]);
 renderAdvertisement(selectedAdvertisement);
+*/
