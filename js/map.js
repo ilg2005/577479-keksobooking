@@ -42,11 +42,8 @@ var POSITION_Y = {
   MAX: 630
 };
 
-var SELECTED_CARD_INDEX = 0;
-
 var TEMPLATE = document.querySelector('template').content;
 var ADVERTISEMENT_TEMPLATE = TEMPLATE.querySelector('.map__card');
-var ADVERTISEMENT_POPUP_CLOSE = ADVERTISEMENT_TEMPLATE.querySelector('.popup__close');
 var PIN_TEMPLATE = TEMPLATE.querySelector('.map__pin');
 var FORM_FIELDS = document.querySelectorAll('fieldset');
 var PIN_MAIN = document.querySelector('.map__pin--main');
@@ -263,6 +260,8 @@ PIN_MAIN.addEventListener('mouseup', function () {
   insertPinAddress();
 });
 
+var cards = generateCards(CARDS_QUANTITY);
+
 var getTargetSrc = function (target) {
   if (target.className === 'map__pin') {
     var src = target.querySelector('img').getAttribute('src');
@@ -277,33 +276,22 @@ var getSelectedCardIndex = function (src) {
   return src.match(searchPattern);
 };
 
+var closePopup = function () {
+  removeEventListener('click', closePopup);
+  document.querySelector('.popup').remove();
+};
+
 document.addEventListener('click', function (evt) {
   if ((evt.target.className === 'map__pin') || (evt.target.parentNode.className === 'map__pin')) {
     var targetSrc = getTargetSrc(evt.target);
     var selectedCardIndex = getSelectedCardIndex(targetSrc);
     var selectedAdvertisement = generateAdvertisement(cards[selectedCardIndex]);
-    ADVERTISEMENT_TEMPLATE.classList.add('map__pin--active');
     renderAdvertisement(selectedAdvertisement);
+    document.querySelector('.popup__close').addEventListener('click', closePopup);
+    document.addEventListener('keydown', function(evt) {
+      if (evt.keyCode === ESC_KEYCODE) {
+        document.querySelector('.popup').remove();
+      }
+    });
   }
 });
-
-var closePopup = function () {
-  ADVERTISEMENT_TEMPLATE.classList.add('hidden');
-};
-
-ADVERTISEMENT_POPUP_CLOSE.addEventListener('click', function () {
-  closePopup();
-});
-
-ADVERTISEMENT_POPUP_CLOSE.addEventListener('keydown', function (evt) {
-  if (evt.keyCode === ESC_KEYCODE) {
-    closePopup();
-  }
-});
-
-var cards = generateCards(CARDS_QUANTITY);
-
-/*
-var selectedAdvertisement = generateAdvertisement(cards[SELECTED_CARD_INDEX]);
-renderAdvertisement(selectedAdvertisement);
-*/
