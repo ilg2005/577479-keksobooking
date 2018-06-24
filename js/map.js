@@ -96,7 +96,7 @@ var generateAddress = function () {
 };
 
 var getAvatarImgAddress = function (i) {
-  return 'img/avatars/user0' + (i + 1) + '.png';
+  return 'img/avatars/user0' + i + '.png';
 };
 
 
@@ -126,7 +126,7 @@ var generateCard = function (cardIndex) {
 
 var generateCards = function (quantity) {
   var cards = [];
-  for (var i = 0; i < quantity; i++) {
+  for (var i = 1; i <= quantity; i++) {
     cards.push(generateCard(i));
   }
   return cards;
@@ -284,8 +284,8 @@ var onPopupClose = function (evt) {
 document.addEventListener('click', function (evt) {
   if ((evt.target.className === 'map__pin') || (evt.target.parentNode.className === 'map__pin')) {
     var selectedCardIndex = getSelectedCardIndex(evt.target);
-    var selectedAdvertisement = generateAdvertisement(cards[selectedCardIndex]);
-    FORM_ADDRESS.value = cards[selectedCardIndex].offer.address;
+    var selectedAdvertisement = generateAdvertisement(cards[selectedCardIndex - 1]);
+    FORM_ADDRESS.value = cards[selectedCardIndex - 1].offer.address;
     renderAdvertisement(selectedAdvertisement);
     document.querySelector('.popup__close').addEventListener('click', onPopupClose);
     document.addEventListener('keydown', onPopupClose);
