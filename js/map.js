@@ -272,9 +272,12 @@ var getSelectedCardIndex = function (target) {
   return src.match(searchPattern);
 };
 
-var closePopup = function () {
-  removeEventListener('click', closePopup);
-  document.querySelector('.popup').remove();
+var onPopupClose = function (evt) {
+  if (evt.type === 'click' && evt.target === document.querySelector('.popup__close') || evt.type === 'keydown' && evt.keyCode === ESC_KEYCODE) {
+    document.querySelector('.popup__close').removeEventListener('click', onPopupClose);
+    document.removeEventListener('keydown', onPopupClose);
+    document.querySelector('.popup').remove();
+  }
 };
 
 document.addEventListener('click', function (evt) {
@@ -283,11 +286,7 @@ document.addEventListener('click', function (evt) {
     var selectedAdvertisement = generateAdvertisement(cards[selectedCardIndex]);
     FORM_ADDRESS.value = cards[selectedCardIndex].offer.address;
     renderAdvertisement(selectedAdvertisement);
-    document.querySelector('.popup__close').addEventListener('click', closePopup);
-    document.addEventListener('keydown', function(evt) {
-      if (evt.keyCode === ESC_KEYCODE) {
-        document.querySelector('.popup').remove();
-      }
-    });
+    document.querySelector('.popup__close').addEventListener('click', onPopupClose);
+    document.addEventListener('keydown', onPopupClose);
   }
 });
