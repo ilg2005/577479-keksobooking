@@ -262,16 +262,12 @@ PIN_MAIN.addEventListener('mouseup', function () {
 
 var cards = generateCards(CARDS_QUANTITY);
 
-var getTargetSrc = function (target) {
+var getSelectedCardIndex = function (target) {
   if (target.className === 'map__pin') {
     var src = target.querySelector('img').getAttribute('src');
   } else {
     src = target.getAttribute('src');
   }
-  return src;
-};
-
-var getSelectedCardIndex = function (src) {
   var searchPattern = /[1-9]\d*/;
   return src.match(searchPattern);
 };
@@ -283,8 +279,7 @@ var closePopup = function () {
 
 document.addEventListener('click', function (evt) {
   if ((evt.target.className === 'map__pin') || (evt.target.parentNode.className === 'map__pin')) {
-    var targetSrc = getTargetSrc(evt.target);
-    var selectedCardIndex = getSelectedCardIndex(targetSrc);
+    var selectedCardIndex = getSelectedCardIndex(evt.target);
     var selectedAdvertisement = generateAdvertisement(cards[selectedCardIndex]);
     renderAdvertisement(selectedAdvertisement);
     document.querySelector('.popup__close').addEventListener('click', closePopup);
