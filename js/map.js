@@ -281,6 +281,7 @@ document.addEventListener('click', function (evt) {
   if ((evt.target.className === 'map__pin') || (evt.target.parentNode.className === 'map__pin')) {
     var selectedCardIndex = getSelectedCardIndex(evt.target);
     var selectedAdvertisement = generateAdvertisement(cards[selectedCardIndex]);
+    FORM_ADDRESS.value = cards[selectedCardIndex].offer.address;
     renderAdvertisement(selectedAdvertisement);
     document.querySelector('.popup__close').addEventListener('click', closePopup);
     document.addEventListener('keydown', function(evt) {
