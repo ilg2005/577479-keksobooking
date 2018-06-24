@@ -254,12 +254,13 @@ var insertPinAddress = function () {
 togglePageState(inactiveState);
 insertPinAddress();
 
-PIN_MAIN.addEventListener('mouseup', function () {
+var onPinMouseup = function () {
   togglePageState(activeState);
   renderSimilarPins(document.querySelector('.map__pins'));
-  insertPinAddress();
-});
+  PIN_MAIN.removeEventListener('mouseup', onPinMouseup);
+};
 
+PIN_MAIN.addEventListener('mouseup', onPinMouseup);
 var cards = generateCards(CARDS_QUANTITY);
 
 var getSelectedCardIndex = function (target) {
