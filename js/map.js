@@ -256,6 +256,7 @@ insertPinAddress();
 
 var onPinMouseup = function () {
   togglePageState(activeState);
+  insertPinAddress();
   renderSimilarPins(document.querySelector('.map__pins'));
   PIN_MAIN.removeEventListener('mouseup', onPinMouseup);
 };
