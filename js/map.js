@@ -51,6 +51,8 @@ var formFieldsElement = document.querySelectorAll('fieldset');
 var pinMainElement = document.querySelector('.map__pin--main');
 var formAddressElement = document.querySelector('#address');
 
+var cards = [];
+
 var getRandomInRange = function (min, max) {
   return min + Math.round(Math.random() * max);
 };
@@ -125,7 +127,6 @@ var generateCard = function (cardIndex) {
 };
 
 var generateCards = function (quantity) {
-  var cards = [];
   for (var i = 1; i <= quantity; i++) {
     cards.push(generateCard(i));
   }
@@ -263,7 +264,7 @@ var onPinMouseup = function () {
 };
 
 pinMainElement.addEventListener('mouseup', onPinMouseup);
-var cards = generateCards(CARDS_QUANTITY);
+cards = generateCards(CARDS_QUANTITY);
 
 var getSelectedCardIndex = function (target) {
   if (target.className === 'map__pin') {
