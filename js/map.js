@@ -256,10 +256,11 @@ var insertPinAddress = function () {
 };
 
 var init = function () {
-
+  togglePageState(inactiveState);
+  insertPinAddress();
+  cards = generateCards(CARDS_QUANTITY);
 };
-togglePageState(inactiveState);
-insertPinAddress();
+init();
 
 var onPinMouseup = function () {
   togglePageState(activeState);
@@ -269,7 +270,6 @@ var onPinMouseup = function () {
 };
 
 pinMainElement.addEventListener('mouseup', onPinMouseup);
-cards = generateCards(CARDS_QUANTITY);
 
 var getSelectedCardIndex = function (target) {
   if (target.className === 'map__pin') {
