@@ -1,7 +1,7 @@
 # Личный проект «Кексобукинг» [![Build status][travis-image]][travis-url]
 
 * Студент: [Игорь Гольдфарб](https://up.htmlacademy.ru/javascript/14/user/577479).
-* Наставник: [Кирилл Пензин] (https://htmlacademy.ru/profile/id91821).
+* Наставник: [Виталий Усик] (https://htmlacademy.ru/profile/id235226).
 
 ---
 
