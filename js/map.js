@@ -53,6 +53,16 @@ var formAddressElement = document.querySelector('#address');
 
 var cards = [];
 
+var inactiveState = {
+  'classToggle': 'add',
+  'attributeToggle': 'set'
+};
+
+var activeState = {
+  'classToggle': 'remove',
+  'attributeToggle': 'remove'
+};
+
 var getRandomInRange = function (min, max) {
   return min + Math.round(Math.random() * max);
 };
@@ -236,15 +246,6 @@ var togglePageState = function (state) {
   pinTemplateElement.classList[state.classToggle]('hidden');
 };
 
-var inactiveState = {
-  'classToggle': 'add',
-  'attributeToggle': 'set'
-};
-
-var activeState = {
-  'classToggle': 'remove',
-  'attributeToggle': 'remove'
-};
 
 var insertPinAddress = function () {
   var pinCoordinates = pinMainElement.getBoundingClientRect();
