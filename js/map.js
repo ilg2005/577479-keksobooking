@@ -50,6 +50,7 @@ var pinTemplateElement = templateElement.querySelector('.map__pin');
 var formFieldsElement = document.querySelectorAll('fieldset');
 var pinMainElement = document.querySelector('.map__pin--main');
 var formAddressElement = document.querySelector('#address');
+var popupCloseElement;
 
 var cards = [];
 
@@ -283,7 +284,7 @@ var getSelectedCardIndex = function (target) {
 
 var onPopupClose = function (evt) {
   if (evt.type === 'click' && evt.target === document.querySelector('.popup__close') || evt.type === 'keydown' && evt.keyCode === ESC_KEYCODE) {
-    document.querySelector('.popup__close').removeEventListener('click', onPopupClose);
+    popupCloseElement.removeEventListener('click', onPopupClose);
     document.removeEventListener('keydown', onPopupClose);
     document.querySelector('.popup').remove();
   }
@@ -294,7 +295,8 @@ document.addEventListener('click', function (evt) {
     var selectedCardIndex = getSelectedCardIndex(evt.target);
     var selectedAdvert = generateAdvert(cards[selectedCardIndex - 1]);
     renderAdvert(selectedAdvert);
-    document.querySelector('.popup__close').addEventListener('click', onPopupClose);
+    popupCloseElement = document.querySelector('.popup__close');
+    popupCloseElement.addEventListener('click', onPopupClose);
     document.addEventListener('keydown', onPopupClose);
   }
 });
