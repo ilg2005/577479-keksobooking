@@ -228,6 +228,7 @@ var renderAdvert = function (advert) {
 
 var togglePageState = function (state) {
   document.querySelector('.map').classList[state.classToggle]('map--faded');
+  document.querySelector('.ad-form').classList[state.classToggle]('ad-form--disabled');
   formFieldsElement.forEach(function (element) {
     element[state.attributeToggle + 'Attribute']('disabled', 'disabled');
   });
@@ -253,6 +254,9 @@ var insertPinAddress = function () {
   formAddressElement.setAttribute('disabled', 'disabled');
 };
 
+var init = function () {
+
+};
 togglePageState(inactiveState);
 insertPinAddress();
 
