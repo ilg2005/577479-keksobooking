@@ -4,6 +4,8 @@ var CARDS_QUANTITY = 8;
 
 var OFFER_TITLES = ['Большая уютная квартира', 'Маленькая неуютная квартира', 'Огромный прекрасный дворец', 'Маленький ужасный дворец', 'Красивый гостевой домик', 'Некрасивый негостеприимный домик', 'Уютное бунгало далеко от моря', 'Неуютное бунгало по колено в воде'];
 
+var copyTitles = OFFER_TITLES.slice();
+
 var PRICE = {
   MIN: 1000,
   MAX: 1000000
@@ -97,7 +99,6 @@ var getRandomFeaturesArray = function (features) {
   return randomFeatures;
 };
 
-var copyTitles = OFFER_TITLES.slice();
 var getUniqueRandomTitle = function (titles) {
   var uniqueRandomTitle = getRandomValue(titles);
   titles.splice(titles.indexOf(uniqueRandomTitle), 1);
@@ -111,7 +112,6 @@ var generateAddress = function () {
 var getAvatarImgAddress = function (i) {
   return 'img/avatars/user0' + i + '.png';
 };
-
 
 var generateCard = function (cardIndex) {
   var card = {
