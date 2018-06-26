@@ -4,6 +4,8 @@ var CARDS_QUANTITY = 8;
 
 var OFFER_TITLES = ['Большая уютная квартира', 'Маленькая неуютная квартира', 'Огромный прекрасный дворец', 'Маленький ужасный дворец', 'Красивый гостевой домик', 'Некрасивый негостеприимный домик', 'Уютное бунгало далеко от моря', 'Неуютное бунгало по колено в воде'];
 
+var copyTitles = OFFER_TITLES.slice();
+
 var PRICE = {
   MIN: 1000,
   MAX: 1000000
@@ -42,10 +44,27 @@ var POSITION_Y = {
   MAX: 630
 };
 
-var SELECTED_CARD_INDEX = 0;
+var ESC_KEYCODE = 27;
 
-var ADVERTISEMENT_TEMPLATE = document.querySelector('template').content.querySelector('.map__card');
+var templateElement = document.querySelector('template').content;
+var advertTemplateElement = templateElement.querySelector('.map__card');
+var pinTemplateElement = templateElement.querySelector('.map__pin');
+var formFieldsElement = document.querySelectorAll('fieldset');
+var pinMainElement = document.querySelector('.map__pin--main');
+var formAddressElement = document.querySelector('#address');
+var popupCloseElement;
 
+var cards = [];
+
+var inactiveState = {
+  'classToggle': 'add',
+  'attributeToggle': 'set'
+};
+
+var activeState = {
+  'classToggle': 'remove',
+  'attributeToggle': 'remove'
+};
 
 var getRandomInRange = function (min, max) {
   return min + Math.round(Math.random() * max);
@@ -80,7 +99,6 @@ var getRandomFeaturesArray = function (features) {
   return randomFeatures;
 };
 
-var copyTitles = OFFER_TITLES.slice();
 var getUniqueRandomTitle = function (titles) {
   var uniqueRandomTitle = getRandomValue(titles);
   titles.splice(titles.indexOf(uniqueRandomTitle), 1);
@@ -92,9 +110,8 @@ var generateAddress = function () {
 };
 
 var getAvatarImgAddress = function (i) {
-  return 'img/avatars/user0' + (i + 1) + '.png';
+  return 'img/avatars/user0' + i + '.png';
 };
-
 
 var generateCard = function (cardIndex) {
   var card = {
@@ -121,16 +138,14 @@ var generateCard = function (cardIndex) {
 };
 
 var generateCards = function (quantity) {
-  var cards = [];
-  for (var i = 0; i < quantity; i++) {
+  for (var i = 1; i <= quantity; i++) {
     cards.push(generateCard(i));
   }
   return cards;
 };
 
 var generatePin = function (card) {
-  var pinTemplate = document.querySelector('template').content.querySelector('.map__pin');
-  var similarPin = pinTemplate.cloneNode(true);
+  var similarPin = pinTemplateElement.cloneNode(true);
 
   var imgElement = similarPin.querySelector('img');
   var pinWidth = imgElement.width;
@@ -195,35 +210,93 @@ var generatePhotosFragment = function (hrefs, imgTemplate) {
   return photosFragment;
 };
 
-var generateAdvertisement = function (card) {
+var generateAdvert = function (card) {
 
-  var advertisement = ADVERTISEMENT_TEMPLATE.cloneNode(true);
+  var advert = advertTemplateElement.cloneNode(true);
 
-  advertisement.querySelector('.popup__avatar').src = card.author.avatar;
-  advertisement.querySelector('.popup__title').textContent = card.offer.title;
-  advertisement.querySelector('.popup__text--address').textContent = card.offer.address;
-  advertisement.querySelector('.popup__text--price').innerHTML = card.offer.price + ' &#x20bd;/ночь';
-  advertisement.querySelector('.popup__type').textContent = HOUSING_TYPES[card.offer.type];
-  advertisement.querySelector('.popup__text--capacity').textContent = card.offer.rooms + ' комнат' + getWordEndingRooms(card.offer.rooms) + ' для ' + card.offer.guests + ' гост' + getWordEndingGuests(card.offer.guests);
-  advertisement.querySelector('.popup__text--time').textContent = 'Заезд после ' + card.offer.checkin + '\, выезд до ' + card.offer.checkout;
-  advertisement.querySelector('.popup__description').textContent = card.offer.description;
+  advert.querySelector('.popup__avatar').src = card.author.avatar;
+  advert.querySelector('.popup__title').textContent = card.offer.title;
+  advert.querySelector('.popup__text--address').textContent = card.offer.address;
+  advert.querySelector('.popup__text--price').innerHTML = card.offer.price + ' &#x20bd;/ночь';
+  advert.querySelector('.popup__type').textContent = HOUSING_TYPES[card.offer.type];
+  advert.querySelector('.popup__text--capacity').textContent = card.offer.rooms + ' комнат' + getWordEndingRooms(card.offer.rooms) + ' для ' + card.offer.guests + ' гост' + getWordEndingGuests(card.offer.guests);
+  advert.querySelector('.popup__text--time').textContent = 'Заезд после ' + card.offer.checkin + '\, выезд до ' + card.offer.checkout;
+  advert.querySelector('.popup__description').textContent = card.offer.description;
 
-  advertisement.querySelector('.popup__features').innerHTML = '';
-  advertisement.querySelector('.popup__features').appendChild(generateFeaturesFragment(card.offer.features));
+  advert.querySelector('.popup__features').innerHTML = '';
+  advert.querySelector('.popup__features').appendChild(generateFeaturesFragment(card.offer.features));
 
-  var photoImg = advertisement.querySelector('.popup__photos img');
-  advertisement.querySelector('.popup__photos').innerHTML = '';
-  advertisement.querySelector('.popup__photos').appendChild(generatePhotosFragment(card.offer.photos, photoImg));
+  var photoImg = advert.querySelector('.popup__photos img');
+  advert.querySelector('.popup__photos').innerHTML = '';
+  advert.querySelector('.popup__photos').appendChild(generatePhotosFragment(card.offer.photos, photoImg));
 
-  return advertisement;
+  return advert;
 };
 
-var renderAdvertisement = function (advertisement) {
-  document.querySelector('.map__filters-container').before(advertisement);
+var renderAdvert = function (advert) {
+  document.querySelector('.map__filters-container').before(advert);
 };
 
-document.querySelector('.map').classList.remove('map--faded');
-var cards = generateCards(CARDS_QUANTITY);
-renderSimilarPins(document.querySelector('.map__pins'));
-var selectedAdvertisement = generateAdvertisement(cards[SELECTED_CARD_INDEX]);
-renderAdvertisement(selectedAdvertisement);
+var togglePageState = function (state) {
+  document.querySelector('.map').classList[state.classToggle]('map--faded');
+  document.querySelector('.ad-form').classList[state.classToggle]('ad-form--disabled');
+  formFieldsElement.forEach(function (element) {
+    element[state.attributeToggle + 'Attribute']('disabled', 'disabled');
+  });
+  advertTemplateElement.classList[state.classToggle]('hidden');
+  pinTemplateElement.classList[state.classToggle]('hidden');
+};
+
+
+var insertPinAddress = function () {
+  var pinCoordinates = pinMainElement.getBoundingClientRect();
+  var pinX = Math.round(pinCoordinates.left + pinCoordinates.width / 2);
+  var pinY = Math.round(pinCoordinates.bottom);
+  formAddressElement.value = pinX + '\, ' + pinY;
+  formAddressElement.setAttribute('disabled', 'disabled');
+};
+
+var init = function () {
+  togglePageState(inactiveState);
+  insertPinAddress();
+  cards = generateCards(CARDS_QUANTITY);
+};
+init();
+
+var onPinMouseup = function () {
+  togglePageState(activeState);
+  insertPinAddress();
+  renderSimilarPins(document.querySelector('.map__pins'));
+  pinMainElement.removeEventListener('mouseup', onPinMouseup);
+};
+
+pinMainElement.addEventListener('mouseup', onPinMouseup);
+
+var getSelectedCardIndex = function (target) {
+  if (target.className === 'map__pin') {
+    var src = target.querySelector('img').getAttribute('src');
+  } else {
+    src = target.getAttribute('src');
+  }
+  var searchPattern = /[1-9]\d*/;
+  return src.match(searchPattern);
+};
+
+var onPopupClose = function (evt) {
+  if (evt.type === 'click' && evt.target === document.querySelector('.popup__close') || evt.type === 'keydown' && evt.keyCode === ESC_KEYCODE) {
+    popupCloseElement.removeEventListener('click', onPopupClose);
+    document.removeEventListener('keydown', onPopupClose);
+    document.querySelector('.popup').remove();
+  }
+};
+
+document.addEventListener('click', function (evt) {
+  if ((evt.target.className === 'map__pin') || (evt.target.parentNode.className === 'map__pin')) {
+    var selectedCardIndex = getSelectedCardIndex(evt.target);
+    var selectedAdvert = generateAdvert(cards[selectedCardIndex - 1]);
+    renderAdvert(selectedAdvert);
+    popupCloseElement = document.querySelector('.popup__close');
+    popupCloseElement.addEventListener('click', onPopupClose);
+    document.addEventListener('keydown', onPopupClose);
+  }
+});
