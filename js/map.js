@@ -52,9 +52,12 @@ var pinTemplateElement = templateElement.querySelector('.map__pin');
 var formFieldsElement = document.querySelectorAll('fieldset');
 var pinMainElement = document.querySelector('.map__pin--main');
 var formAddressElement = document.querySelector('#address');
+var formHousingTypeElement = document.querySelector('#type');
 var popupCloseElement;
 
 var cards = [];
+
+var pageState = false;
 
 var inactiveState = {
   'classToggle': 'add',
@@ -245,6 +248,7 @@ var togglePageState = function (state) {
   });
   advertTemplateElement.classList[state.classToggle]('hidden');
   pinTemplateElement.classList[state.classToggle]('hidden');
+  return pageState = (state === activeState) ? true : false;
 };
 
 
