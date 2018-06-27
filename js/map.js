@@ -328,9 +328,10 @@ var getSelectedFormValue = function (formSelectElement) {
   for (var i = 0; i < formSelectElement.options.length; i++) {
     var option = formSelectElement.options[i];
     if (option.selected) {
-      return option.value;
+      var selectedFormValue = option.value;
     }
   }
+  return selectedFormValue;
 };
 
 var setHousingMinPrice = function (selectedHousingType) {
