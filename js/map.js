@@ -79,8 +79,6 @@ var activeState = {
   'attributeToggle': 'remove'
 };
 
-var notification = 'Значение не должно быть меньше ';
-
 var getRandomInRange = function (min, max) {
   return min + Math.round(Math.random() * max);
 };
@@ -284,6 +282,7 @@ var onPinMouseup = function () {
   renderSimilarPins(document.querySelector('.map__pins'));
   pinMainElement.removeEventListener('mouseup', onPinMouseup);
   formHousingTypeElement.addEventListener('change', onFormHousingTypeElementChange);
+  formPriceElement.addEventListener('change', onFormPriceElementChange);
   formCheckinElement.addEventListener('change', onFormCheckinElementChange);
   formCheckoutElement.addEventListener('change', onFormCheckoutElementChange);
 };
@@ -337,7 +336,10 @@ var getSelectedFormValue = function (formSelectElement) {
 var setHousingMinPrice = function (selectedHousingType) {
   formPriceElement.placeholder = HOUSING_MIN_PRICES[selectedHousingType];
   formPriceElement.setAttribute('min', HOUSING_MIN_PRICES[selectedHousingType]);
-  formPriceElement.setCustomValidity(notification + HOUSING_MIN_PRICES[selectedHousingType]);
+};
+
+var onFormPriceElementChange = function () {
+  formPriceElement.setCustomValidity('Значение меньше минимально допустимого');
 };
 
 var onFormCheckinElementChange = function () {
