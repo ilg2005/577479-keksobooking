@@ -268,7 +268,7 @@ var insertPinAddress = function () {
   var pinX = Math.round(pinCoordinates.left + pinCoordinates.width / 2);
   var pinY = Math.round(pinCoordinates.bottom);
   formAddressElement.value = pinX + '\, ' + pinY;
-  formAddressElement.setAttribute('disabled', 'disabled');
+  formAddressElement.setAttribute('readonly', 'readonly');
 };
 
 var init = function () {
