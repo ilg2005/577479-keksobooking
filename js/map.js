@@ -273,6 +273,7 @@ var init = function () {
   togglePageState(inactiveState);
   insertPinAddress();
   cards = generateCards(CARDS_QUANTITY);
+  formPriceElement.setAttribute('min', HOUSING_MIN_PRICES[formHousingTypeElement.value]);
 };
 init();
 
