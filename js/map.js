@@ -69,8 +69,6 @@ var popupCloseElement;
 
 var cards = [];
 
-var pageState = false;
-
 var inactiveState = {
   'classToggle': 'add',
   'attributeToggle': 'set'
@@ -262,7 +260,6 @@ var togglePageState = function (state) {
   });
   advertTemplateElement.classList[state.classToggle]('hidden');
   pinTemplateElement.classList[state.classToggle]('hidden');
-  return pageState = (state === activeState) ? true : false;
 };
 
 
