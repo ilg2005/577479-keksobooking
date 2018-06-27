@@ -61,6 +61,8 @@ var pinMainElement = document.querySelector('.map__pin--main');
 var formAddressElement = document.querySelector('#address');
 var formHousingTypeElement = document.querySelector('#type');
 var formPriceElement = document.querySelector('#price');
+var formCheckinElement = document.querySelector('#timein');
+var formCheckoutElement = document.querySelector('#timeout');
 var popupCloseElement;
 
 var cards = [];
@@ -283,6 +285,8 @@ var onPinMouseup = function () {
   renderSimilarPins(document.querySelector('.map__pins'));
   pinMainElement.removeEventListener('mouseup', onPinMouseup);
   formHousingTypeElement.addEventListener('change', onFormHousingTypeElementChange);
+  formCheckinElement.addEventListener('change', onFormCheckinElementChange);
+  formCheckoutElement.addEventListener('change', onFormCheckoutElementChange);
 };
 
 pinMainElement.addEventListener('mouseup', onPinMouseup);
@@ -335,4 +339,19 @@ var setHousingMinPrice = function (selectedHousingType) {
   formPriceElement.placeholder = HOUSING_MIN_PRICES[selectedHousingType];
   formPriceElement.setAttribute('min', HOUSING_MIN_PRICES[selectedHousingType]);
   formPriceElement.setCustomValidity(notification + HOUSING_MIN_PRICES[selectedHousingType]);
+};
+
+var onFormCheckinElementChange = function () {
+  var selectedValue = getSelectedFormValue(formCheckinElement);
+  setCorrespondingTime(selectedValue);
+};
+
+var onFormCheckoutElementChange = function () {
+  var selectedValue = getSelectedFormValue(formCheckoutElement);
+  setCorrespondingTime(selectedValue);
+};
+
+var setCorrespondingTime = function (selectedTime) {
+  formCheckinElement.value = selectedTime;
+  formCheckoutElement.value = selectedTime;
 };
