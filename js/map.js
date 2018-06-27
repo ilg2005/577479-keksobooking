@@ -329,9 +329,9 @@ var setHousingMinPrice = function (selectedHousingType) {
 
 var onFormPriceElementChange = function () {
   if (formPriceElement.validity.valid) {
-    formPriceElement.setCustomValidity('Значение меньше минимально допустимого: ' + formPriceElement.placeholder);
-  } else {
     formPriceElement.setCustomValidity('');
+  } else {
+    formPriceElement.setCustomValidity('Значение меньше минимально допустимого: ' + formPriceElement.placeholder);
   }
 };
 
