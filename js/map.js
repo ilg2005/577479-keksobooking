@@ -334,7 +334,7 @@ var getSelectedFormValue = function (formSelectElement) {
 };
 
 var setHousingMinPrice = function (selectedHousingType) {
-  formPriceElement.placeholder = HOUSING_MIN_PRICES[selectedHousingType];
+  formPriceElement.setAttribute('placeholder', HOUSING_MIN_PRICES[selectedHousingType]);
   formPriceElement.setAttribute('min', HOUSING_MIN_PRICES[selectedHousingType]);
 };
 
