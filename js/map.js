@@ -319,18 +319,7 @@ document.addEventListener('click', function (evt) {
 });
 
 var onFormHousingTypeElementChange = function () {
-  var selectedValue = getSelectedFormValue(formHousingTypeElement);
-  setHousingMinPrice(selectedValue);
-};
-
-var getSelectedFormValue = function (formSelectElement) {
-  for (var i = 0; i < formSelectElement.options.length; i++) {
-    var option = formSelectElement.options[i];
-    if (option.selected) {
-      var selectedFormValue = option.value;
-    }
-  }
-  return selectedFormValue;
+  setHousingMinPrice(formHousingTypeElement.value);
 };
 
 var setHousingMinPrice = function (selectedHousingType) {
@@ -343,13 +332,11 @@ var onFormPriceElementChange = function () {
 };
 
 var onFormCheckinElementChange = function () {
-  var selectedValue = getSelectedFormValue(formCheckinElement);
-  setCorrespondingTime(selectedValue);
+  setCorrespondingTime(formCheckinElement.value);
 };
 
 var onFormCheckoutElementChange = function () {
-  var selectedValue = getSelectedFormValue(formCheckoutElement);
-  setCorrespondingTime(selectedValue);
+  setCorrespondingTime(formCheckoutElement.value);
 };
 
 var setCorrespondingTime = function (selectedTime) {
