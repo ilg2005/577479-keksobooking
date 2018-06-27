@@ -283,7 +283,6 @@ var onPinMouseup = function () {
   renderSimilarPins(document.querySelector('.map__pins'));
   pinMainElement.removeEventListener('mouseup', onPinMouseup);
   formHousingTypeElement.addEventListener('change', onFormHousingTypeElementChange);
-  formPriceElement.addEventListener('blur', onFormPriceElementBlur);
 };
 
 pinMainElement.addEventListener('mouseup', onPinMouseup);
@@ -334,12 +333,6 @@ var getSelectedFormValue = function (formSelectElement) {
 
 var setHousingMinPrice = function (selectedHousingType) {
   formPriceElement.placeholder = HOUSING_MIN_PRICES[selectedHousingType];
+  formPriceElement.setAttribute('min', HOUSING_MIN_PRICES[selectedHousingType]);
   formPriceElement.setCustomValidity(notification + HOUSING_MIN_PRICES[selectedHousingType]);
 };
-
-
-var onFormPriceElementBlur = function (evt) {
-  console.log(evt.target);
-  evt.target.setCustomValidity('message');
-};
-
