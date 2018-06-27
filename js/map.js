@@ -28,6 +28,13 @@ var HOUSING_TYPES = {
   'bungalo': 'Бунгало'
 };
 
+var HOUSING_MIN_PRICES = {
+  'palace': '10000',
+  'flat': '1000',
+  'house': '5000',
+  'bungalo': '0'
+};
+
 var CONTROL_HOURS = ['12:00', '13:00', '14:00'];
 
 var FEATURES = ['wifi', 'dishwasher', 'parking', 'washer', 'elevator', 'conditioner'];
@@ -53,6 +60,7 @@ var formFieldsElement = document.querySelectorAll('fieldset');
 var pinMainElement = document.querySelector('.map__pin--main');
 var formAddressElement = document.querySelector('#address');
 var formHousingTypeElement = document.querySelector('#type');
+var formPriceElement = document.querySelector('#price');
 var popupCloseElement;
 
 var cards = [];
@@ -68,6 +76,8 @@ var activeState = {
   'classToggle': 'remove',
   'attributeToggle': 'remove'
 };
+
+var notification = 'Значение не должно быть меньше ';
 
 var getRandomInRange = function (min, max) {
   return min + Math.round(Math.random() * max);
@@ -272,6 +282,8 @@ var onPinMouseup = function () {
   insertPinAddress();
   renderSimilarPins(document.querySelector('.map__pins'));
   pinMainElement.removeEventListener('mouseup', onPinMouseup);
+  formHousingTypeElement.addEventListener('change', onFormHousingTypeElementChange);
+  formPriceElement.addEventListener('blur', onFormPriceElementBlur);
 };
 
 pinMainElement.addEventListener('mouseup', onPinMouseup);
@@ -304,3 +316,30 @@ document.addEventListener('click', function (evt) {
     document.addEventListener('keydown', onPopupClose);
   }
 });
+
+var onFormHousingTypeElementChange = function (evt) {
+  // console.log(evt.target);
+  var selectedValue = getSelectedFormValue(formHousingTypeElement);
+  setHousingMinPrice(selectedValue);
+};
+
+var getSelectedFormValue = function (formSelectElement) {
+  for (var i = 0; i < formSelectElement.options.length; i++) {
+    var option = formSelectElement.options[i];
+    if (option.selected) {
+      return option.value;
+    }
+  }
+};
+
+var setHousingMinPrice = function (selectedHousingType) {
+  formPriceElement.placeholder = HOUSING_MIN_PRICES[selectedHousingType];
+  formPriceElement.setCustomValidity(notification + HOUSING_MIN_PRICES[selectedHousingType]);
+};
+
+
+var onFormPriceElementBlur = function (evt) {
+  console.log(evt.target);
+  evt.target.setCustomValidity('message');
+};
+
