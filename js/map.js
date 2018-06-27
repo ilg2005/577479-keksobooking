@@ -328,7 +328,11 @@ var setHousingMinPrice = function (selectedHousingType) {
 };
 
 var onFormPriceElementChange = function () {
-  formPriceElement.setCustomValidity('Значение меньше минимально допустимого: ' + formPriceElement.placeholder);
+  if (formPriceElement.validity.valid) {
+    formPriceElement.setCustomValidity('Значение меньше минимально допустимого: ' + formPriceElement.placeholder);
+  } else {
+    formPriceElement.setCustomValidity('');
+  }
 };
 
 var onFormCheckinElementChange = function () {
