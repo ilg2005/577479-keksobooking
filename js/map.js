@@ -58,6 +58,7 @@ var advertTemplateElement = templateElement.querySelector('.map__card');
 var pinTemplateElement = templateElement.querySelector('.map__pin');
 var formFieldsElement = document.querySelectorAll('fieldset');
 var pinMainElement = document.querySelector('.map__pin--main');
+var formTitleElement = document.querySelector('#title');
 var formAddressElement = document.querySelector('#address');
 var formHousingTypeElement = document.querySelector('#type');
 var formPriceElement = document.querySelector('#price');
@@ -283,7 +284,6 @@ var onPinMouseup = function () {
   renderSimilarPins(document.querySelector('.map__pins'));
   pinMainElement.removeEventListener('mouseup', onPinMouseup);
   formHousingTypeElement.addEventListener('change', onFormHousingTypeElementChange);
-  formPriceElement.addEventListener('change', onFormPriceElementChange);
   formCheckinElement.addEventListener('change', onFormCheckinElementChange);
   formCheckoutElement.addEventListener('change', onFormCheckoutElementChange);
 };
@@ -326,14 +326,6 @@ var onFormHousingTypeElementChange = function () {
 var setHousingMinPrice = function (selectedHousingType) {
   formPriceElement.setAttribute('placeholder', HOUSING_MIN_PRICES[selectedHousingType]);
   formPriceElement.setAttribute('min', HOUSING_MIN_PRICES[selectedHousingType]);
-};
-
-var onFormPriceElementChange = function () {
-  if (formPriceElement.validity.valid) {
-    formPriceElement.setCustomValidity('');
-  } else {
-    formPriceElement.setCustomValidity('Значение меньше минимально допустимого: ' + formPriceElement.placeholder);
-  }
 };
 
 var onFormCheckinElementChange = function () {
