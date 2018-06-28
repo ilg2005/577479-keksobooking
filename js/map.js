@@ -359,10 +359,12 @@ var setCapacityLimitations = function (roomsQuantity, guestsQuantity) {
 };
 
 var onFormRoomsQuantityElementChange = function () {
+  formGuestsQuantityElement.setCustomValidity('');
   setCapacityLimitations(formRoomsQuantityElement.value, formGuestsQuantityElement.value);
 };
 
 var onFormGuestsQuantityElementChange = function () {
+  formGuestsQuantityElement.setCustomValidity('');
   setCapacityLimitations(formRoomsQuantityElement.value, formGuestsQuantityElement.value);
 };
 
