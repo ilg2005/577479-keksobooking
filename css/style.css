@@ -1220,6 +1220,6 @@ input:invalid{
   background-color: #FDD;
 }
 
-input:focus.invalid {
+input:focus:invalid {
   outline: none;
 }

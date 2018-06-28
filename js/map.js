@@ -285,6 +285,8 @@ var onPinMouseup = function () {
   formHousingTypeElement.addEventListener('change', onFormHousingTypeElementChange);
   formCheckinElement.addEventListener('change', onFormCheckinElementChange);
   formCheckoutElement.addEventListener('change', onFormCheckoutElementChange);
+  formRoomsQuantityElement.addEventListener('change', onFormRoomsQuantityElementChange);
+  formGuestsQuantityElement.addEventListener('change', onFormGuestsQuantityElementChange);
 };
 
 pinMainElement.addEventListener('mouseup', onPinMouseup);
@@ -341,15 +343,28 @@ var setCorrespondingTime = function (selectedTime) {
 };
 
 var setCapacityLimitations = function (roomsQuantity, guestsQuantity) {
+  roomsQuantity = Number(roomsQuantity);
+  guestsQuantity = Number(guestsQuantity);
   if (roomsQuantity === 1 && guestsQuantity !== 1) {
     formGuestsQuantityElement.setCustomValidity('1 комната - для 1 гостя');
   } else if ((roomsQuantity === 2) && (guestsQuantity !== 1 || guestsQuantity !== 2)) {
     formGuestsQuantityElement.setCustomValidity('2 комнаты - для 1 или 2 гостей');
   } else if ((roomsQuantity === 3) && (guestsQuantity !== 1 || guestsQuantity !== 2 || guestsQuantity !== 3)) {
     formGuestsQuantityElement.setCustomValidity('3 комнаты - для 1, 2 или 3 гостей');
-  } else if (roomsQuantity === 0 && guestsQuantity !== 0) {
+  } else if (roomsQuantity === 100 && guestsQuantity !== 0) {
     formGuestsQuantityElement.setCustomValidity('100 комнат - не для гостей');
+  } else {
+    formGuestsQuantityElement.setCustomValidity('');
   }
 };
 
-setCapacityLimitations(formRoomsQuantityElement.value, formGuestsQuantityElement.value);
+var onFormRoomsQuantityElementChange = function () {
+  setCapacityLimitations(formRoomsQuantityElement.value, formGuestsQuantityElement.value);
+};
+
+var onFormGuestsQuantityElementChange = function () {
+  if (!formGuestsQuantityElement.validity.valid) {
+    formGuestsQuantityElement.style.backgroundColor = '#FDD';
+  }
+};
+
