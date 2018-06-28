@@ -1215,7 +1215,7 @@ fieldset {
           transform: translateX(-50%);
 }
 
-input:invalid{
+input:invalid {
   border-color: #900;
   background-color: #FDD;
 }
