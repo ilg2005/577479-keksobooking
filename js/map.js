@@ -330,16 +330,11 @@ var setHousingMinPrice = function (selectedHousingType) {
 };
 
 var onFormCheckinElementChange = function () {
-  setCorrespondingTime(formCheckinElement.value);
+  formCheckoutElement.value = formCheckinElement.value;
 };
 
 var onFormCheckoutElementChange = function () {
-  setCorrespondingTime(formCheckoutElement.value);
-};
-
-var setCorrespondingTime = function (selectedTime) {
-  formCheckinElement.value = selectedTime;
-  formCheckoutElement.value = selectedTime;
+  formCheckinElement.value = formCheckoutElement.value;
 };
 
 var setCapacityLimitations = function (roomsQuantity, guestsQuantity) {
