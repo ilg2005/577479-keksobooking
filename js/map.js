@@ -58,7 +58,6 @@ var advertTemplateElement = templateElement.querySelector('.map__card');
 var pinTemplateElement = templateElement.querySelector('.map__pin');
 var formFieldsElement = document.querySelectorAll('fieldset');
 var pinMainElement = document.querySelector('.map__pin--main');
-var formTitleElement = document.querySelector('#title');
 var formAddressElement = document.querySelector('#address');
 var formHousingTypeElement = document.querySelector('#type');
 var formPriceElement = document.querySelector('#price');
