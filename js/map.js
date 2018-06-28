@@ -342,9 +342,9 @@ var setCapacityLimitations = function (roomsQuantity, guestsQuantity) {
   guestsQuantity = Number(guestsQuantity);
   if (roomsQuantity === 1 && guestsQuantity !== 1) {
     formGuestsQuantityElement.setCustomValidity('1 комната - для 1 гостя');
-  } else if ((roomsQuantity === 2) && (guestsQuantity !== 1 || guestsQuantity !== 2)) {
+  } else if ((roomsQuantity === 2) && (guestsQuantity !== 1 && guestsQuantity !== 2)) {
     formGuestsQuantityElement.setCustomValidity('2 комнаты - для 1 или 2 гостей');
-  } else if ((roomsQuantity === 3) && (guestsQuantity !== 1 || guestsQuantity !== 2 || guestsQuantity !== 3)) {
+  } else if ((roomsQuantity === 3) && (guestsQuantity !== 1 && guestsQuantity !== 2 && guestsQuantity !== 3)) {
     formGuestsQuantityElement.setCustomValidity('3 комнаты - для 1, 2 или 3 гостей');
   } else if (roomsQuantity === 100 && guestsQuantity !== 0) {
     formGuestsQuantityElement.setCustomValidity('100 комнат - не для гостей');
