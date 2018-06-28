@@ -286,6 +286,7 @@ var onPinMouseup = function () {
   formCheckinElement.addEventListener('change', onFormCheckinElementChange);
   formCheckoutElement.addEventListener('change', onFormCheckoutElementChange);
   formRoomsQuantityElement.addEventListener('change', onFormRoomsQuantityElementChange);
+  formGuestsQuantityElement.addEventListener('change', onFormGuestsQuantityElementChange);
 };
 
 pinMainElement.addEventListener('mouseup', onPinMouseup);
@@ -358,6 +359,10 @@ var setCapacityLimitations = function (roomsQuantity, guestsQuantity) {
 };
 
 var onFormRoomsQuantityElementChange = function () {
+  setCapacityLimitations(formRoomsQuantityElement.value, formGuestsQuantityElement.value);
+};
+
+var onFormGuestsQuantityElementChange = function () {
   setCapacityLimitations(formRoomsQuantityElement.value, formGuestsQuantityElement.value);
 };
 
