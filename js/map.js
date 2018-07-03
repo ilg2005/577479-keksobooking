@@ -265,18 +265,24 @@ var togglePageState = function (state) {
   pinTemplateElement.classList[state.classToggle]('hidden');
 };
 
+var getPinMainCoordinates = function () {
+  var elementCoordinates = pinMainElement.getBoundingClientRect();
+  var pinMainCoordinates = {
+    x: Math.round(elementCoordinates.left + elementCoordinates.width / 2),
+    y: Math.round(elementCoordinates.bottom)
+  };
+  return pinMainCoordinates;
+};
 
-var insertPinAddress = function () {
-  var pinCoordinates = pinMainElement.getBoundingClientRect();
-  var pinX = Math.round(pinCoordinates.left + pinCoordinates.width / 2);
-  var pinY = Math.round(pinCoordinates.bottom);
-  formAddressElement.value = pinX + '\, ' + pinY;
+var insertMainPinAddress = function () {
+  var pinMainCoordinates = getPinMainCoordinates();
+  formAddressElement.value = pinMainCoordinates.x + '\, ' + pinMainCoordinates.y;
   formAddressElement.setAttribute('readonly', 'readonly');
 };
 
 var init = function () {
   togglePageState(inactiveState);
-  insertPinAddress();
+  insertMainPinAddress();
   cards = generateCards(CARDS_QUANTITY);
   formPriceElement.setAttribute('min', HOUSING_MIN_PRICES[formHousingTypeElement.value]);
 };
@@ -284,7 +290,7 @@ init();
 
 var onPinMousedown = function () {
   togglePageState(activeState);
-  insertPinAddress();
+  insertMainPinAddress();
   renderSimilarPins(document.querySelector('.map__pins'));
  // pinMainElement.removeEventListener('mouseup', onPinMouseup);
   formHousingTypeElement.addEventListener('change', onFormHousingTypeElementChange);
