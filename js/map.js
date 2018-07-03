@@ -80,7 +80,8 @@ var activeState = {
 };
 
 var getRandomInRange = function (min, max) {
-  return min + Math.round(Math.random() * max);
+  var random = Math.random();
+  return (random === 0) ? min : Math.ceil(random * max);
 };
 
 var getRandomValue = function (array) {
@@ -161,13 +162,16 @@ var generatePin = function (card) {
   var similarPin = pinTemplateElement.cloneNode(true);
 
   var imgElement = similarPin.querySelector('img');
-  var pinWidth = imgElement.width;
-  var pinHeight = imgElement.height;
+  // var buttonElement = similarPin.querySelector('button .map__pin');
+  var pinWidth = 50;
+  var pinHeight = 70;
 
   imgElement.src = card.author.avatar;
   imgElement.alt = card.offer.title;
 
-  similarPin.style = 'left: ' + (card.location.x - pinWidth / 2) + 'px; top: ' + (card.location.y - pinHeight) + 'px;';
+ /* similarPin.style = 'left: ' + (card.location.x - pinWidth / 2) + 'px; top: ' + (card.location.y - pinHeight) + 'px;';*/
+  similarPin.style.left = (card.location.x - pinWidth / 2) + 'px';
+  similarPin.style.top = (card.location.y - pinHeight) + 'px';
 
   return similarPin;
 };
