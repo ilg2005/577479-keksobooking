@@ -42,13 +42,18 @@ var FEATURES = ['wifi', 'dishwasher', 'parking', 'washer', 'elevator', 'conditio
 var PHOTOS_HREFS = ['http://o0.github.io/assets/images/tokyo/hotel1.jpg', 'http://o0.github.io/assets/images/tokyo/hotel2.jpg', 'http://o0.github.io/assets/images/tokyo/hotel3.jpg'];
 
 var POSITION_X = {
-  MIN: 300,
-  MAX: 900
+  MIN: 0,
+  MAX: document.querySelector('.map').offsetWidth
 };
 
 var POSITION_Y = {
   MIN: 130,
   MAX: 630
+};
+
+var SIMILAR_PIN_SIZE = {
+  WIDTH: 50,
+  HEIGHT: 70
 };
 
 var ESC_KEYCODE = 27;
@@ -80,8 +85,9 @@ var activeState = {
 };
 
 var getRandomInRange = function (min, max) {
-  var random = Math.random();
-  return (random === 0) ? min : Math.ceil(random * max);
+  var random = min + Math.random() * (max + 1 - min);
+  random = Math.floor(random);
+  return random;
 };
 
 var getRandomValue = function (array) {
@@ -120,7 +126,7 @@ var getUniqueRandomTitle = function (titles) {
 };
 
 var generateAddress = function () {
-  return '\'' + getRandomInRange(POSITION_X.MIN, POSITION_X.MAX) + '\, ' + getRandomInRange(POSITION_Y.MIN, POSITION_Y.MAX) + '\'';
+  return '\'' + (getRandomInRange(POSITION_X.MIN, POSITION_X.MAX) - SIMILAR_PIN_SIZE.WIDTH / 2) + '\, ' + (getRandomInRange(POSITION_Y.MIN, POSITION_Y.MAX) - SIMILAR_PIN_SIZE.HEIGHT) + '\'';
 };
 
 var getAvatarImgAddress = function (i) {
@@ -144,8 +150,8 @@ var generateCard = function (cardIndex) {
       photos: shuffleArray(PHOTOS_HREFS)
     },
     'location': {
-      x: getRandomInRange(POSITION_X.MIN, POSITION_X.MAX),
-      y: getRandomInRange(POSITION_Y.MIN, POSITION_Y.MAX)
+      x: getRandomInRange(POSITION_X.MIN, POSITION_X.MAX) - SIMILAR_PIN_SIZE.WIDTH / 2,
+      y: getRandomInRange(POSITION_Y.MIN, POSITION_Y.MAX) - SIMILAR_PIN_SIZE.HEIGHT
     }
   };
   return card;
@@ -162,16 +168,11 @@ var generatePin = function (card) {
   var similarPin = pinTemplateElement.cloneNode(true);
 
   var imgElement = similarPin.querySelector('img');
-  // var buttonElement = similarPin.querySelector('button .map__pin');
-  var pinWidth = 50;
-  var pinHeight = 70;
 
   imgElement.src = card.author.avatar;
   imgElement.alt = card.offer.title;
 
- /* similarPin.style = 'left: ' + (card.location.x - pinWidth / 2) + 'px; top: ' + (card.location.y - pinHeight) + 'px;';*/
-  similarPin.style.left = (card.location.x - pinWidth / 2) + 'px';
-  similarPin.style.top = (card.location.y - pinHeight) + 'px';
+  similarPin.style = 'left: ' + card.location.x + 'px; top: ' + card.location.y + 'px;';
 
   return similarPin;
 };
