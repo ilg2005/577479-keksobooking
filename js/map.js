@@ -266,10 +266,9 @@ var togglePageState = function (state) {
 };
 
 var getPinMainCoordinates = function () {
-  var elementCoordinates = pinMainElement.getBoundingClientRect();
   var pinMainCoordinates = {
-    x: Math.round(elementCoordinates.left + elementCoordinates.width / 2),
-    y: Math.round(elementCoordinates.bottom)
+    x: Math.round(pinMainElement.offsetLeft - pinMainElement.offsetWidth / 2),
+    y: Math.round(pinMainElement.offsetTop - pinMainElement.offsetHeight)
   };
   return pinMainCoordinates;
 };
