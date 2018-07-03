@@ -282,11 +282,11 @@ var init = function () {
 };
 init();
 
-var onPinMouseup = function () {
+var onPinMousedown = function () {
   togglePageState(activeState);
   insertPinAddress();
   renderSimilarPins(document.querySelector('.map__pins'));
-  pinMainElement.removeEventListener('mouseup', onPinMouseup);
+ // pinMainElement.removeEventListener('mouseup', onPinMouseup);
   formHousingTypeElement.addEventListener('change', onFormHousingTypeElementChange);
   formCheckinElement.addEventListener('change', onFormCheckinElementChange);
   formCheckoutElement.addEventListener('change', onFormCheckoutElementChange);
@@ -294,7 +294,7 @@ var onPinMouseup = function () {
   formGuestsQuantityElement.addEventListener('change', onFormGuestsQuantityElementChange);
 };
 
-pinMainElement.addEventListener('mouseup', onPinMouseup);
+pinMainElement.addEventListener('mousedown', onPinMousedown);
 
 var getSelectedCardIndex = function (target) {
   if (target.className === 'map__pin') {
