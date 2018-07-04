@@ -85,9 +85,7 @@ var activeState = {
 };
 
 var getRandomInRange = function (min, max) {
-  var random = min + Math.random() * (max + 1 - min);
-  random = Math.floor(random);
-  return random;
+  return Math.floor(Math.random() * (max + 1 - min) + min);
 };
 
 var getRandomValue = function (array) {
