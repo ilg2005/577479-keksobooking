@@ -321,6 +321,7 @@ var onPinMousedown = function (evtDown) {
       y: pinMainElement.offsetTop + shift.y,
     };
 
+    insertMainPinAddress(newPinMainCoordinates);
     pinMainElement.style.left = newPinMainCoordinates.x + 'px';
     pinMainElement.style.top = newPinMainCoordinates.y + 'px';
 
