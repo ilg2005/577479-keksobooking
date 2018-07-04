@@ -290,9 +290,7 @@ init();
 
 var onPinMousedown = function (evtDown) {
   togglePageState(activeState);
-  // insertMainPinAddress();
   renderSimilarPins(document.querySelector('.map__pins'));
-  // pinMainElement.removeEventListener('mouseup', onPinMouseup);
   formHousingTypeElement.addEventListener('change', onFormHousingTypeElementChange);
   formCheckinElement.addEventListener('change', onFormCheckinElementChange);
   formCheckoutElement.addEventListener('change', onFormCheckoutElementChange);
@@ -318,6 +316,7 @@ var onPinMousedown = function (evtDown) {
       x: pinMainElement.offsetLeft + shift.x,
       y: pinMainElement.offsetTop + shift.y,
     };
+
     if (newPinMainCoordinates.x >= POSITION_X.MIN && newPinMainCoordinates.x <= POSITION_X.MAX && newPinMainCoordinates.y >= POSITION_Y.MIN && newPinMainCoordinates.y <= POSITION_Y.MAX) {
       insertMainPinAddress(newPinMainCoordinates);
       pinMainElement.style.left = newPinMainCoordinates.x + 'px';
