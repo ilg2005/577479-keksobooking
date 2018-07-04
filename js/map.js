@@ -275,14 +275,14 @@ var getPinMainCoordinates = function () {
 
 var pinMainCoordinates = getPinMainCoordinates();
 
-var insertMainPinAddress = function () {
-  formAddressElement.value = pinMainCoordinates.x + '\, ' + pinMainCoordinates.y;
+var insertMainPinAddress = function (coordinates) {
+  formAddressElement.value = coordinates.x + '\, ' + coordinates.y;
   formAddressElement.setAttribute('readonly', 'readonly');
 };
 
 var init = function () {
   togglePageState(inactiveState);
-  insertMainPinAddress();
+  insertMainPinAddress(pinMainCoordinates);
   cards = generateCards(CARDS_QUANTITY);
   formPriceElement.setAttribute('min', HOUSING_MIN_PRICES[formHousingTypeElement.value]);
 };
