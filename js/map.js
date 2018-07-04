@@ -316,8 +316,13 @@ var onPinMousedown = function (evtDown) {
       y: evtMove.y
     };
 
-    pinMainElement.style.left = (pinMainElement.offsetLeft + shift.x) + 'px';
-    pinMainElement.style.top = (pinMainElement.offsetTop + shift.y) + 'px';
+    var newPinMainCoordinates = {
+      x: pinMainElement.offsetLeft + shift.x,
+      y: pinMainElement.offsetTop + shift.y,
+    };
+
+    pinMainElement.style.left = newPinMainCoordinates.x + 'px';
+    pinMainElement.style.top = newPinMainCoordinates.y + 'px';
 
     var onDocumentMouseup = function (evtUp) {
       document.removeEventListener('mousemove', onDocumentMousemove);
