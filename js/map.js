@@ -72,6 +72,24 @@ var formRoomsQuantityElement = document.querySelector('#room_number');
 var formGuestsQuantityElement = document.querySelector('#capacity');
 var popupCloseElement;
 
+var pinNeedleOffset = {
+  left: Math.round(pinMainElement.offsetWidth / 2),
+  top: Math.round(pinMainElement.offsetHeight + parseInt(getComputedStyle(pinMainElement, '::after').height, 10))
+};
+
+var getPinNeedleCoordinates = function () {
+  var pinNeedleCoordinates = {
+    x: Math.round(pinMainElement.offsetLeft - pinNeedleOffset.left),
+    y: pinMainElement.offsetTop - pinNeedleOffset.top
+  };
+  return pinNeedleCoordinates;
+};
+
+var insertPinNeedleAddress = function (coordinates) {
+  formAddressElement.value = coordinates.x + '\, ' + coordinates.y;
+  formAddressElement.setAttribute('readonly', 'readonly');
+};
+
 var cards = [];
 
 var inactiveState = {
@@ -263,24 +281,10 @@ var togglePageState = function (state) {
   pinTemplateElement.classList[state.classToggle]('hidden');
 };
 
-var getPinMainCoordinates = function () {
-  var pinMainCoordinates = {
-    x: Math.round(pinMainElement.offsetLeft - pinMainElement.offsetWidth / 2),
-    y: pinMainElement.offsetTop - pinMainElement.offsetHeight
-  };
-  return pinMainCoordinates;
-};
-
-var pinMainCoordinates = getPinMainCoordinates();
-
-var insertMainPinAddress = function (coordinates) {
-  formAddressElement.value = coordinates.x + '\, ' + coordinates.y;
-  formAddressElement.setAttribute('readonly', 'readonly');
-};
-
 var init = function () {
   togglePageState(inactiveState);
-  insertMainPinAddress(pinMainCoordinates);
+  var initialPinNeedleCoordinates = getPinNeedleCoordinates();
+  insertPinNeedleAddress(initialPinNeedleCoordinates);
   cards = generateCards(CARDS_QUANTITY);
   formPriceElement.setAttribute('min', HOUSING_MIN_PRICES[formHousingTypeElement.value]);
 };
@@ -305,6 +309,7 @@ var onPinMousedown = function (evtDown) {
       x: evtMove.x - startMouseCoordinates.x,
       y: evtMove.y - startMouseCoordinates.y
     };
+
     startMouseCoordinates = {
       x: evtMove.x,
       y: evtMove.y
@@ -312,13 +317,14 @@ var onPinMousedown = function (evtDown) {
 
     var newPinMainCoordinates = {
       x: pinMainElement.offsetLeft + shift.x,
-      y: pinMainElement.offsetTop + shift.y,
+      y: pinMainElement.offsetTop + shift.y
     };
 
-    if (newPinMainCoordinates.x >= POSITION_X.MIN && newPinMainCoordinates.x <= POSITION_X.MAX && newPinMainCoordinates.y >= POSITION_Y.MIN && newPinMainCoordinates.y <= POSITION_Y.MAX) {
-      insertMainPinAddress(newPinMainCoordinates);
+    if (newPinMainCoordinates.x >= (POSITION_X.MIN - pinNeedleOffset.left) && newPinMainCoordinates.x <= (POSITION_X.MAX - pinNeedleOffset.left) && newPinMainCoordinates.y >= (POSITION_Y.MIN - pinNeedleOffset.top) && newPinMainCoordinates.y <= (POSITION_Y.MAX - pinNeedleOffset.top)) {
       pinMainElement.style.left = newPinMainCoordinates.x + 'px';
       pinMainElement.style.top = newPinMainCoordinates.y + 'px';
+      var newPinNeedleCoordinates = getPinNeedleCoordinates();
+      insertPinNeedleAddress(newPinNeedleCoordinates);
     }
   };
   document.addEventListener('mousemove', onDocumentMousemove);
