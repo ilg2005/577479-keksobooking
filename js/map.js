@@ -318,10 +318,11 @@ var onPinMousedown = function (evtDown) {
       x: pinMainElement.offsetLeft + shift.x,
       y: pinMainElement.offsetTop + shift.y,
     };
-
-    insertMainPinAddress(newPinMainCoordinates);
-    pinMainElement.style.left = newPinMainCoordinates.x + 'px';
-    pinMainElement.style.top = newPinMainCoordinates.y + 'px';
+    if (newPinMainCoordinates.x >= POSITION_X.MIN && newPinMainCoordinates.x <= POSITION_X.MAX && newPinMainCoordinates.y >= POSITION_Y.MIN && newPinMainCoordinates.y <= POSITION_Y.MAX) {
+      insertMainPinAddress(newPinMainCoordinates);
+      pinMainElement.style.left = newPinMainCoordinates.x + 'px';
+      pinMainElement.style.top = newPinMainCoordinates.y + 'px';
+    }
   };
   document.addEventListener('mousemove', onDocumentMousemove);
 
