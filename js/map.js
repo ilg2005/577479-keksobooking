@@ -304,9 +304,7 @@ var onPinMousedown = function (evtDown) {
     y: evtDown.y
   };
 
-  var dragged = false;
   var onDocumentMousemove = function (evtMove) {
-    dragged = true;
     var shift = {
       x: evtMove.x - startMouseCoordinates.x,
       y: evtMove.y - startMouseCoordinates.y
@@ -324,15 +322,14 @@ var onPinMousedown = function (evtDown) {
     insertMainPinAddress(newPinMainCoordinates);
     pinMainElement.style.left = newPinMainCoordinates.x + 'px';
     pinMainElement.style.top = newPinMainCoordinates.y + 'px';
-
-    var onDocumentMouseup = function (evtUp) {
-      document.removeEventListener('mousemove', onDocumentMousemove);
-      document.removeEventListener('mouseup', onDocumentMouseup);
-    };
-    document.addEventListener('mouseup', onDocumentMouseup);
   };
-
   document.addEventListener('mousemove', onDocumentMousemove);
+
+  var onDocumentMouseup = function () {
+    document.removeEventListener('mousemove', onDocumentMousemove);
+    document.removeEventListener('mouseup', onDocumentMouseup);
+  };
+  document.addEventListener('mouseup', onDocumentMouseup);
 };
 
 pinMainElement.addEventListener('mousedown', onPinMousedown);
