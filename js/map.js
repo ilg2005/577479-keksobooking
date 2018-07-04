@@ -79,8 +79,8 @@ var pinNeedleOffset = {
 
 var getPinNeedleCoordinates = function () {
   var pinNeedleCoordinates = {
-    x: Math.round(pinMainElement.offsetLeft - pinNeedleOffset.left),
-    y: pinMainElement.offsetTop - pinNeedleOffset.top
+    x: Math.round(pinMainElement.offsetLeft + pinNeedleOffset.left),
+    y: pinNeedleOffset.top - pinMainElement.offsetTop
   };
   return pinNeedleCoordinates;
 };
