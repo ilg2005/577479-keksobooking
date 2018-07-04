@@ -320,7 +320,7 @@ var onPinMousedown = function (evtDown) {
       y: pinMainElement.offsetTop + shift.y
     };
 
-    if (newPinMainCoordinates.x >= (POSITION_X.MIN - pinNeedleOffset.left) && newPinMainCoordinates.x <= (POSITION_X.MAX - pinNeedleOffset.left) && newPinMainCoordinates.y >= (POSITION_Y.MIN - pinNeedleOffset.top) && newPinMainCoordinates.y <= (POSITION_Y.MAX - pinNeedleOffset.top)) {
+    if (newPinMainCoordinates.x >= (POSITION_X.MIN - pinNeedleOffset.left) && newPinMainCoordinates.x <= (POSITION_X.MAX - pinNeedleOffset.left) && newPinMainCoordinates.y >= POSITION_Y.MIN && newPinMainCoordinates.y <= POSITION_Y.MAX) {
       pinMainElement.style.left = newPinMainCoordinates.x + 'px';
       pinMainElement.style.top = newPinMainCoordinates.y + 'px';
       var newPinNeedleCoordinates = getPinNeedleCoordinates();
