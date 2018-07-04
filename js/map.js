@@ -273,8 +273,9 @@ var getPinMainCoordinates = function () {
   return pinMainCoordinates;
 };
 
+var pinMainCoordinates = getPinMainCoordinates();
+
 var insertMainPinAddress = function () {
-  var pinMainCoordinates = getPinMainCoordinates();
   formAddressElement.value = pinMainCoordinates.x + '\, ' + pinMainCoordinates.y;
   formAddressElement.setAttribute('readonly', 'readonly');
 };
@@ -287,16 +288,40 @@ var init = function () {
 };
 init();
 
-var onPinMousedown = function () {
+var onPinMousedown = function (evtDown) {
   togglePageState(activeState);
-  insertMainPinAddress();
+  // insertMainPinAddress();
   renderSimilarPins(document.querySelector('.map__pins'));
- // pinMainElement.removeEventListener('mouseup', onPinMouseup);
+  // pinMainElement.removeEventListener('mouseup', onPinMouseup);
   formHousingTypeElement.addEventListener('change', onFormHousingTypeElementChange);
   formCheckinElement.addEventListener('change', onFormCheckinElementChange);
   formCheckoutElement.addEventListener('change', onFormCheckoutElementChange);
   formRoomsQuantityElement.addEventListener('change', onFormRoomsQuantityElementChange);
   formGuestsQuantityElement.addEventListener('change', onFormGuestsQuantityElementChange);
+
+  var startMouseCoordinates = {
+    x: evtDown.x,
+    y: evtDown.y
+  };
+
+  var dragged = false;
+  var onDocumentMousemove = function (evtMove) {
+    dragged = true;
+    var shift = {
+      x: evtMove.x - startMouseCoordinates.x,
+      y: evtMove.y - startMouseCoordinates.y
+    };
+    startMouseCoordinates = {
+      x: evtMove.x,
+      y: evtMove.y
+    };
+
+    pinMainElement.style.left = (pinMainElement.offsetLeft + shift.x) + 'px';
+    pinMainElement.style.top = (pinMainElement.offsetTop + shift.y) + 'px';
+
+
+  };
+  document.addEventListener('mousemove', onDocumentMousemove);
 };
 
 pinMainElement.addEventListener('mousedown', onPinMousedown);
