@@ -77,20 +77,15 @@ var formRoomsQuantityElement = document.querySelector('#room_number');
 var formGuestsQuantityElement = document.querySelector('#capacity');
 var popupCloseElement;
 
-var pinNeedleOffset = {
-  left: Math.round(pinMainElement.offsetWidth / 2),
-  top: Math.round(pinMainElement.offsetHeight + parseInt(getComputedStyle(pinMainElement, '::after').height, 10))
-};
-
-var getPinNeedleCoordinates = function () {
-  var pinNeedleCoordinates = {
-    x: Math.round(pinMainElement.offsetLeft + pinNeedleOffset.left),
-    y: pinNeedleOffset.top - pinMainElement.offsetTop
+var getNeedlepointCoordinates = function (PIN_SIZE, pinElement) {
+  var needlepointCoordinates = {
+    x: Math.round(pinElement.offsetLeft + PIN_SIZE.WIDTH / 2),
+    y: Math.round(pinElement.offsetTop + PIN_SIZE.HEIGHT)
   };
-  return pinNeedleCoordinates;
+  return needlepointCoordinates;
 };
 
-var insertPinNeedleAddress = function (coordinates) {
+var insertNeedlepointAddress = function (coordinates) {
   formAddressElement.value = coordinates.x + '\, ' + coordinates.y;
   formAddressElement.setAttribute('readonly', 'readonly');
 };
@@ -288,8 +283,8 @@ var togglePageState = function (state) {
 
 var init = function () {
   togglePageState(inactiveState);
-  var initialPinNeedleCoordinates = getPinNeedleCoordinates();
-  insertPinNeedleAddress(initialPinNeedleCoordinates);
+  var initialNeedlepointCoordinates = getNeedlepointCoordinates(MAIN_PIN_SIZE, pinMainElement);
+  insertNeedlepointAddress(initialNeedlepointCoordinates);
   cards = generateCards(CARDS_QUANTITY);
   formPriceElement.setAttribute('min', HOUSING_MIN_PRICES[formHousingTypeElement.value]);
 };
@@ -325,11 +320,11 @@ var onPinMousedown = function (evtDown) {
       y: pinMainElement.offsetTop + shift.y
     };
 
-    if (newPinMainCoordinates.x >= (POSITION_X.MIN - pinNeedleOffset.left) && newPinMainCoordinates.x <= (POSITION_X.MAX - pinNeedleOffset.left) && newPinMainCoordinates.y >= POSITION_Y.MIN && newPinMainCoordinates.y <= POSITION_Y.MAX) {
+    if (newPinMainCoordinates.x >= (POSITION_X.MIN - MAIN_PIN_SIZE.WIDTH / 2) && newPinMainCoordinates.x <= (POSITION_X.MAX - MAIN_PIN_SIZE.WIDTH / 2) && newPinMainCoordinates.y >= (POSITION_Y.MIN - MAIN_PIN_SIZE.HEIGHT) && newPinMainCoordinates.y <= (POSITION_Y.MAX - MAIN_PIN_SIZE.HEIGHT)) {
       pinMainElement.style.left = newPinMainCoordinates.x + 'px';
       pinMainElement.style.top = newPinMainCoordinates.y + 'px';
-      var newPinNeedleCoordinates = getPinNeedleCoordinates();
-      insertPinNeedleAddress(newPinNeedleCoordinates);
+      var newNeedlepointCoordinates = getNeedlepointCoordinates(MAIN_PIN_SIZE, pinMainElement);
+      insertNeedlepointAddress(newNeedlepointCoordinates);
     }
   };
   document.addEventListener('mousemove', onDocumentMousemove);
