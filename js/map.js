@@ -42,13 +42,23 @@ var FEATURES = ['wifi', 'dishwasher', 'parking', 'washer', 'elevator', 'conditio
 var PHOTOS_HREFS = ['http://o0.github.io/assets/images/tokyo/hotel1.jpg', 'http://o0.github.io/assets/images/tokyo/hotel2.jpg', 'http://o0.github.io/assets/images/tokyo/hotel3.jpg'];
 
 var POSITION_X = {
-  MIN: 300,
-  MAX: 900
+  MIN: 0,
+  MAX: document.querySelector('.map').offsetWidth
 };
 
 var POSITION_Y = {
   MIN: 130,
   MAX: 630
+};
+
+var MAIN_PIN_SIZE = {
+  WIDTH: 62,
+  HEIGHT: 84
+};
+
+var SIMILAR_PIN_SIZE = {
+  WIDTH: 50,
+  HEIGHT: 70
 };
 
 var ESC_KEYCODE = 27;
@@ -67,6 +77,19 @@ var formRoomsQuantityElement = document.querySelector('#room_number');
 var formGuestsQuantityElement = document.querySelector('#capacity');
 var popupCloseElement;
 
+var getNeedlepointCoordinates = function (PIN_SIZE, pinElement) {
+  var needlepointCoordinates = {
+    x: Math.round(pinElement.offsetLeft + PIN_SIZE.WIDTH / 2),
+    y: Math.round(pinElement.offsetTop + PIN_SIZE.HEIGHT)
+  };
+  return needlepointCoordinates;
+};
+
+var insertNeedlepointAddress = function (coordinates) {
+  formAddressElement.value = coordinates.x + '\, ' + coordinates.y;
+  formAddressElement.setAttribute('readonly', 'readonly');
+};
+
 var cards = [];
 
 var inactiveState = {
@@ -80,7 +103,7 @@ var activeState = {
 };
 
 var getRandomInRange = function (min, max) {
-  return min + Math.round(Math.random() * max);
+  return Math.floor(Math.random() * (max + 1 - min) + min);
 };
 
 var getRandomValue = function (array) {
@@ -119,7 +142,7 @@ var getUniqueRandomTitle = function (titles) {
 };
 
 var generateAddress = function () {
-  return '\'' + getRandomInRange(POSITION_X.MIN, POSITION_X.MAX) + '\, ' + getRandomInRange(POSITION_Y.MIN, POSITION_Y.MAX) + '\'';
+  return '\'' + (getRandomInRange(POSITION_X.MIN, POSITION_X.MAX) - SIMILAR_PIN_SIZE.WIDTH / 2) + '\, ' + (getRandomInRange(POSITION_Y.MIN, POSITION_Y.MAX) - SIMILAR_PIN_SIZE.HEIGHT) + '\'';
 };
 
 var getAvatarImgAddress = function (i) {
@@ -143,8 +166,8 @@ var generateCard = function (cardIndex) {
       photos: shuffleArray(PHOTOS_HREFS)
     },
     'location': {
-      x: getRandomInRange(POSITION_X.MIN, POSITION_X.MAX),
-      y: getRandomInRange(POSITION_Y.MIN, POSITION_Y.MAX)
+      x: getRandomInRange(POSITION_X.MIN, POSITION_X.MAX) - SIMILAR_PIN_SIZE.WIDTH / 2,
+      y: getRandomInRange(POSITION_Y.MIN, POSITION_Y.MAX) - SIMILAR_PIN_SIZE.HEIGHT
     }
   };
   return card;
@@ -161,13 +184,11 @@ var generatePin = function (card) {
   var similarPin = pinTemplateElement.cloneNode(true);
 
   var imgElement = similarPin.querySelector('img');
-  var pinWidth = imgElement.width;
-  var pinHeight = imgElement.height;
 
   imgElement.src = card.author.avatar;
   imgElement.alt = card.offer.title;
 
-  similarPin.style = 'left: ' + (card.location.x - pinWidth / 2) + 'px; top: ' + (card.location.y - pinHeight) + 'px;';
+  similarPin.style = 'left: ' + card.location.x + 'px; top: ' + card.location.y + 'px;';
 
   return similarPin;
 };
@@ -260,36 +281,62 @@ var togglePageState = function (state) {
   pinTemplateElement.classList[state.classToggle]('hidden');
 };
 
-
-var insertPinAddress = function () {
-  var pinCoordinates = pinMainElement.getBoundingClientRect();
-  var pinX = Math.round(pinCoordinates.left + pinCoordinates.width / 2);
-  var pinY = Math.round(pinCoordinates.bottom);
-  formAddressElement.value = pinX + '\, ' + pinY;
-  formAddressElement.setAttribute('readonly', 'readonly');
-};
-
 var init = function () {
   togglePageState(inactiveState);
-  insertPinAddress();
+  var initialNeedlepointCoordinates = getNeedlepointCoordinates(MAIN_PIN_SIZE, pinMainElement);
+  insertNeedlepointAddress(initialNeedlepointCoordinates);
   cards = generateCards(CARDS_QUANTITY);
   formPriceElement.setAttribute('min', HOUSING_MIN_PRICES[formHousingTypeElement.value]);
 };
 init();
 
-var onPinMouseup = function () {
+var onPinMousedown = function (evtDown) {
   togglePageState(activeState);
-  insertPinAddress();
   renderSimilarPins(document.querySelector('.map__pins'));
-  pinMainElement.removeEventListener('mouseup', onPinMouseup);
   formHousingTypeElement.addEventListener('change', onFormHousingTypeElementChange);
   formCheckinElement.addEventListener('change', onFormCheckinElementChange);
   formCheckoutElement.addEventListener('change', onFormCheckoutElementChange);
   formRoomsQuantityElement.addEventListener('change', onFormRoomsQuantityElementChange);
   formGuestsQuantityElement.addEventListener('change', onFormGuestsQuantityElementChange);
+
+  var startMouseCoordinates = {
+    x: evtDown.x,
+    y: evtDown.y
+  };
+
+  var onDocumentMousemove = function (evtMove) {
+    var shift = {
+      x: evtMove.x - startMouseCoordinates.x,
+      y: evtMove.y - startMouseCoordinates.y
+    };
+
+    startMouseCoordinates = {
+      x: evtMove.x,
+      y: evtMove.y
+    };
+
+    var newPinMainCoordinates = {
+      x: pinMainElement.offsetLeft + shift.x,
+      y: pinMainElement.offsetTop + shift.y
+    };
+
+    if (newPinMainCoordinates.x >= (POSITION_X.MIN - MAIN_PIN_SIZE.WIDTH / 2) && newPinMainCoordinates.x <= (POSITION_X.MAX - MAIN_PIN_SIZE.WIDTH / 2) && newPinMainCoordinates.y >= (POSITION_Y.MIN - MAIN_PIN_SIZE.HEIGHT) && newPinMainCoordinates.y <= (POSITION_Y.MAX - MAIN_PIN_SIZE.HEIGHT)) {
+      pinMainElement.style.left = newPinMainCoordinates.x + 'px';
+      pinMainElement.style.top = newPinMainCoordinates.y + 'px';
+      var newNeedlepointCoordinates = getNeedlepointCoordinates(MAIN_PIN_SIZE, pinMainElement);
+      insertNeedlepointAddress(newNeedlepointCoordinates);
+    }
+  };
+  document.addEventListener('mousemove', onDocumentMousemove);
+
+  var onDocumentMouseup = function () {
+    document.removeEventListener('mousemove', onDocumentMousemove);
+    document.removeEventListener('mouseup', onDocumentMouseup);
+  };
+  document.addEventListener('mouseup', onDocumentMouseup);
 };
 
-pinMainElement.addEventListener('mouseup', onPinMouseup);
+pinMainElement.addEventListener('mousedown', onPinMousedown);
 
 var getSelectedCardIndex = function (target) {
   if (target.className === 'map__pin') {
