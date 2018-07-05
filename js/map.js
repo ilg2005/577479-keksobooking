@@ -51,6 +51,11 @@ var POSITION_Y = {
   MAX: 630
 };
 
+var MAIN_PIN_SIZE = {
+  WIDTH: 62,
+  HEIGHT: 84
+};
+
 var SIMILAR_PIN_SIZE = {
   WIDTH: 50,
   HEIGHT: 70
