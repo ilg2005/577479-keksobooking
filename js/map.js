@@ -167,7 +167,7 @@ var generateCards = function (quantity) {
   return cards;
 };
 
-var generatePin = function (card) {
+var generateSimilarPin = function (card) {
   var similarPin = pinTemplateElement.cloneNode(true);
 
   var imgElement = similarPin.querySelector('img');
@@ -184,7 +184,7 @@ var renderSimilarPins = function (container) {
   var fragmentPin = document.createDocumentFragment();
 
   cards.forEach(function (card) {
-    fragmentPin.appendChild(generatePin(card));
+    fragmentPin.appendChild(generateSimilarPin(card));
   });
   container.appendChild(fragmentPin);
 };
