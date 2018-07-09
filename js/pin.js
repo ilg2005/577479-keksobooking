@@ -1,22 +1,12 @@
 'use strict';
 
 (function () {
-  var POSITION_X = {
-    MIN: 0,
-    MAX: document.querySelector('.map').offsetWidth
-  };
-
-  var POSITION_Y = {
-    MIN: 130,
-    MAX: 630
-  };
 
   var MAIN_PIN_SIZE = {
     WIDTH: 62,
     HEIGHT: 84
   };
 
-  var pinMainElement = document.querySelector('.map__pin--main');
   var formAddressElement = document.querySelector('#address');
 
   var getNeedlepointCoordinates = function (PIN_SIZE, pinElement) {
@@ -32,7 +22,7 @@
     formAddressElement.setAttribute('readonly', 'readonly');
   };
 
-  var initialNeedlepointCoordinates = getNeedlepointCoordinates(MAIN_PIN_SIZE, pinMainElement);
+  var initialNeedlepointCoordinates = getNeedlepointCoordinates(MAIN_PIN_SIZE, window.util.pinMainElement);
   insertNeedlepointAddress(initialNeedlepointCoordinates);
 
   var onPinMousedown = function (evtDown) {
@@ -54,14 +44,14 @@
       };
 
       var newPinMainCoordinates = {
-        x: pinMainElement.offsetLeft + shift.x,
-        y: pinMainElement.offsetTop + shift.y
+        x: window.util.pinMainElement.offsetLeft + shift.x,
+        y: window.util.pinMainElement.offsetTop + shift.y
       };
 
-      if (newPinMainCoordinates.x >= (POSITION_X.MIN - MAIN_PIN_SIZE.WIDTH / 2) && newPinMainCoordinates.x <= (POSITION_X.MAX - MAIN_PIN_SIZE.WIDTH / 2) && newPinMainCoordinates.y >= (POSITION_Y.MIN - MAIN_PIN_SIZE.HEIGHT) && newPinMainCoordinates.y <= (POSITION_Y.MAX - MAIN_PIN_SIZE.HEIGHT)) {
-        pinMainElement.style.left = newPinMainCoordinates.x + 'px';
-        pinMainElement.style.top = newPinMainCoordinates.y + 'px';
-        var newNeedlepointCoordinates = getNeedlepointCoordinates(MAIN_PIN_SIZE, pinMainElement);
+      if (newPinMainCoordinates.x >= (window.util.POSITION_X.MIN - MAIN_PIN_SIZE.WIDTH / 2) && newPinMainCoordinates.x <= (window.util.POSITION_X.MAX - MAIN_PIN_SIZE.WIDTH / 2) && newPinMainCoordinates.y >= (window.util.POSITION_Y.MIN - MAIN_PIN_SIZE.HEIGHT) && newPinMainCoordinates.y <= (window.util.POSITION_Y.MAX - MAIN_PIN_SIZE.HEIGHT)) {
+        window.util.pinMainElement.style.left = newPinMainCoordinates.x + 'px';
+        window.util.pinMainElement.style.top = newPinMainCoordinates.y + 'px';
+        var newNeedlepointCoordinates = getNeedlepointCoordinates(MAIN_PIN_SIZE, window.util.pinMainElement);
         insertNeedlepointAddress(newNeedlepointCoordinates);
       }
     };
@@ -74,5 +64,5 @@
     document.addEventListener('mouseup', onDocumentMouseup);
   };
 
-  pinMainElement.addEventListener('mousedown', onPinMousedown);
+  window.util.pinMainElement.addEventListener('mousedown', onPinMousedown);
 })();

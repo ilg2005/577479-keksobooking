@@ -34,16 +34,6 @@ var FEATURES = ['wifi', 'dishwasher', 'parking', 'washer', 'elevator', 'conditio
 
 var PHOTOS_HREFS = ['http://o0.github.io/assets/images/tokyo/hotel1.jpg', 'http://o0.github.io/assets/images/tokyo/hotel2.jpg', 'http://o0.github.io/assets/images/tokyo/hotel3.jpg'];
 
-var POSITION_X = {
-  MIN: 0,
-  MAX: document.querySelector('.map').offsetWidth
-};
-
-var POSITION_Y = {
-  MIN: 130,
-  MAX: 630
-};
-
 var SIMILAR_PIN_SIZE = {
   WIDTH: 50,
   HEIGHT: 70
@@ -54,7 +44,6 @@ var ESC_KEYCODE = 27;
 var templateElement = document.querySelector('template').content;
 var advertTemplateElement = templateElement.querySelector('.map__card');
 var pinTemplateElement = templateElement.querySelector('.map__pin');
-var pinMainElement = document.querySelector('.map__pin--main');
 var formFieldsElement = document.querySelectorAll('fieldset');
 var popupCloseElement;
 
@@ -110,7 +99,7 @@ var getUniqueRandomTitle = function (titles) {
 };
 
 var generateAddress = function () {
-  return '\'' + (getRandomInRange(POSITION_X.MIN, POSITION_X.MAX) - SIMILAR_PIN_SIZE.WIDTH / 2) + '\, ' + (getRandomInRange(POSITION_Y.MIN, POSITION_Y.MAX) - SIMILAR_PIN_SIZE.HEIGHT) + '\'';
+  return '\'' + (getRandomInRange(window.util.POSITION_X.MIN, window.util.POSITION_X.MAX) - SIMILAR_PIN_SIZE.WIDTH / 2) + '\, ' + (getRandomInRange(window.util.POSITION_Y.MIN, window.util.POSITION_Y.MAX) - SIMILAR_PIN_SIZE.HEIGHT) + '\'';
 };
 
 var getAvatarImgAddress = function (i) {
@@ -134,8 +123,8 @@ var generateCard = function (cardIndex) {
       photos: shuffleArray(PHOTOS_HREFS)
     },
     'location': {
-      x: getRandomInRange(POSITION_X.MIN, POSITION_X.MAX) - SIMILAR_PIN_SIZE.WIDTH / 2,
-      y: getRandomInRange(POSITION_Y.MIN, POSITION_Y.MAX) - SIMILAR_PIN_SIZE.HEIGHT
+      x: getRandomInRange(window.util.POSITION_X.MIN, window.util.POSITION_X.MAX) - SIMILAR_PIN_SIZE.WIDTH / 2,
+      y: getRandomInRange(window.util.POSITION_Y.MIN, window.util.POSITION_Y.MAX) - SIMILAR_PIN_SIZE.HEIGHT
     }
   };
   return card;
@@ -262,7 +251,7 @@ var onPinMousedown = function () {
   this.removeEventListener('mousedown', onPinMousedown);
 };
 
-pinMainElement.addEventListener('mousedown', onPinMousedown);
+window.util.pinMainElement.addEventListener('mousedown', onPinMousedown);
 
 var getSelectedCardIndex = function (target) {
   if (target.className === 'map__pin') {
