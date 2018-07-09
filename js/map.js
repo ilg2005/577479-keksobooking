@@ -161,6 +161,9 @@ var onPopupClose = function (evt) {
 
 document.addEventListener('click', function (evt) {
   if ((evt.target.className === 'map__pin') || (evt.target.parentNode.className === 'map__pin')) {
+    if (document.querySelector('.popup')) {
+      document.querySelector('.popup').remove();
+    }
     var selectedCardIndex = getSelectedCardIndex(evt.target);
     var selectedAdvert = generateAdvert(window.cards[selectedCardIndex - 1]);
     renderAdvert(selectedAdvert);
