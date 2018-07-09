@@ -248,7 +248,7 @@ init();
 var onPinMousedown = function () {
   togglePageState(activeState);
   renderSimilarPins(document.querySelector('.map__pins'));
-  this.removeEventListener('mousedown', onPinMousedown);
+  window.util.pinMainElement.removeEventListener('mousedown', onPinMousedown);
 };
 
 window.util.pinMainElement.addEventListener('mousedown', onPinMousedown);
