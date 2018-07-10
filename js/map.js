@@ -1,35 +1,34 @@
 'use strict';
 
-var ESC_KEYCODE = 27;
+(function () {
+  var generateSimilarPin = function (card) {
+    var similarPin = window.util.pinTemplateElement.cloneNode(true);
 
-var generateSimilarPin = function (card) {
-  var similarPin = window.util.pinTemplateElement.cloneNode(true);
+    var imgElement = similarPin.querySelector('img');
 
-  var imgElement = similarPin.querySelector('img');
+    imgElement.src = card.author.avatar;
+    imgElement.alt = card.offer.title;
 
-  imgElement.src = card.author.avatar;
-  imgElement.alt = card.offer.title;
+    similarPin.style = 'left: ' + card.location.x + 'px; top: ' + card.location.y + 'px;';
 
-  similarPin.style = 'left: ' + card.location.x + 'px; top: ' + card.location.y + 'px;';
+    return similarPin;
+  };
 
-  return similarPin;
-};
+  var renderSimilarPins = function (container) {
+    var fragmentPin = document.createDocumentFragment();
 
-var renderSimilarPins = function (container) {
-  var fragmentPin = document.createDocumentFragment();
+    window.cards.forEach(function (card) {
+      fragmentPin.appendChild(generateSimilarPin(card));
+    });
+    container.appendChild(fragmentPin);
+  };
 
-  window.cards.forEach(function (card) {
-    fragmentPin.appendChild(generateSimilarPin(card));
-  });
-  container.appendChild(fragmentPin);
-};
+  var onPinMousedown = function () {
+    window.pageActivate();
+    renderSimilarPins(document.querySelector('.map__pins'));
+    window.util.pinMainElement.removeEventListener('mousedown', onPinMousedown);
+  };
 
-var onPinMousedown = function () {
-  window.pageActivate();
-  renderSimilarPins(document.querySelector('.map__pins'));
-  window.util.pinMainElement.removeEventListener('mousedown', onPinMousedown);
-};
-
-window.util.pinMainElement.addEventListener('mousedown', onPinMousedown);
-
+  window.util.pinMainElement.addEventListener('mousedown', onPinMousedown);
+})();
 

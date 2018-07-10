@@ -1,6 +1,7 @@
 'use strict';
 
 (function () {
+  var ESC_KEYCODE = 27;
   var popupCloseElement;
 
   var getWordEndingRooms = function (count) {
