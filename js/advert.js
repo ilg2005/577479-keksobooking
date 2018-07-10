@@ -1,6 +1,8 @@
 'use strict';
 
 (function () {
+  var popupCloseElement;
+
   var getWordEndingRooms = function (count) {
     switch (count) {
       case 1:
@@ -62,7 +64,7 @@
 
   var generateAdvert = function (card) {
 
-    var advert = advertTemplateElement.cloneNode(true);
+    var advert = window.util.advertTemplateElement.cloneNode(true);
 
     advert.querySelector('.popup__avatar').src = card.author.avatar;
     advert.querySelector('.popup__title').textContent = card.offer.title;
