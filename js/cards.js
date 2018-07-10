@@ -46,13 +46,14 @@
   };
 
   var shuffleArray = function (array) {
-    for (var i = 0; i < array.length; i++) {
+    var newArray = array.slice();
+    for (var i = 0; i < newArray.length; i++) {
       var randomIndex = Math.floor(Math.random() * (i + 1));
-      var temp = array[i];
-      array[i] = array[randomIndex];
-      array[randomIndex] = temp;
+      var temp = newArray[i];
+      newArray[i] = newArray[randomIndex];
+      newArray[randomIndex] = temp;
     }
-    return array;
+    return newArray;
   };
 
   var getRandomFeaturesArray = function (features) {
