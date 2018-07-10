@@ -27,12 +27,7 @@
     MAX: 30
   };
 
-  var HOUSING_TYPES = {
-    'palace': 'Дворец',
-    'flat': 'Квартира',
-    'house': 'Дом',
-    'bungalo': 'Бунгало'
-  };
+  var HOUSING_TYPES = ['palace', 'flat', 'house', 'bungalo'];
 
   var CONTROL_HOURS = ['12:00', '13:00', '14:00'];
 
@@ -96,7 +91,7 @@
         title: getUniqueRandomTitle(copyTitles),
         address: generateAddress(),
         price: getRandomInRange(PRICE.MIN, PRICE.MAX),
-        type: getRandomValue(Object.keys(HOUSING_TYPES)),
+        type: getRandomValue(HOUSING_TYPES),
         rooms: getRandomInRange(ROOMS_QUANTITY.MIN, ROOMS_QUANTITY.MAX),
         guests: getRandomInRange(GUESTS_QUANTITY.MIN, GUESTS_QUANTITY.MAX),
         checkin: getRandomValue(CONTROL_HOURS),

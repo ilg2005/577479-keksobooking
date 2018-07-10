@@ -1,13 +1,5 @@
 'use strict';
 
-var HOUSING_TYPES = {
-  'palace': 'Дворец',
-  'flat': 'Квартира',
-  'house': 'Дом',
-  'bungalo': 'Бунгало'
-};
-
-
 var ESC_KEYCODE = 27;
 
 var templateElement = document.querySelector('template').content;
@@ -89,6 +81,23 @@ var generatePhotosFragment = function (hrefs, imgTemplate) {
   });
   return photosFragment;
 };
+var getTranslatedHousingType = function (type) {
+  switch (type) {
+    case 'palace':
+      var translation = 'Дворец';
+      break;
+    case 'house':
+      translation = 'Дом';
+      break;
+    case 'flat':
+      translation = 'Квартира';
+      break;
+    case 'bungalo':
+      translation = 'Бунгало';
+      break;
+  }
+  return translation;
+};
 
 var generateAdvert = function (card) {
 
@@ -98,7 +107,7 @@ var generateAdvert = function (card) {
   advert.querySelector('.popup__title').textContent = card.offer.title;
   advert.querySelector('.popup__text--address').textContent = card.offer.address;
   advert.querySelector('.popup__text--price').innerHTML = card.offer.price + ' &#x20bd;/ночь';
-  advert.querySelector('.popup__type').textContent = HOUSING_TYPES[card.offer.type];
+  advert.querySelector('.popup__type').textContent = getTranslatedHousingType(card.offer.type);
   advert.querySelector('.popup__text--capacity').textContent = card.offer.rooms + ' комнат' + getWordEndingRooms(card.offer.rooms) + ' для ' + card.offer.guests + ' гост' + getWordEndingGuests(card.offer.guests);
   advert.querySelector('.popup__text--time').textContent = 'Заезд после ' + card.offer.checkin + '\, выезд до ' + card.offer.checkout;
   advert.querySelector('.popup__description').textContent = card.offer.description;
