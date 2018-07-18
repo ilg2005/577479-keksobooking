@@ -8,6 +8,7 @@
     'bungalo': '0'
   };
 
+  var form = document.querySelector('form.ad-form');
   var formHousingTypeElement = document.querySelector('#type');
   var formPriceElement = document.querySelector('#price');
   var formCheckinElement = document.querySelector('#timein');
@@ -62,4 +63,18 @@
   formCheckoutElement.addEventListener('change', onFormCheckoutElementChange);
   formRoomsQuantityElement.addEventListener('change', onFormRoomsQuantityElementChange);
   formGuestsQuantityElement.addEventListener('change', onFormGuestsQuantityElementChange);
+
+  var onSuccessSave = function () {
+    window.util.serverResponseMessage('Данные успешно сохранены!', 'green');
+    form.reset();
+  };
+
+  var onErrorSave = function (message) {
+    window.util.serverResponseMessage(message, 'red');
+  };
+
+  form.addEventListener('submit', function (evt) {
+    evt.preventDefault();
+    window.backend.save(new FormData(form), onSuccessSave, onErrorSave);
+  });
 })();
